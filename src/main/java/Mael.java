@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Mael {
 
-    private static Random rng = new Random();
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Random rng = new Random();
+    private static final Scanner scanner = new Scanner(System.in);
     private static final String LOGO = 
         """
        .oXXXXXXXXXXXXXXXXXXo.
@@ -29,16 +29,32 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
-    private static class Task {
+    private abstract static class Task {
         private final String title;
         private boolean completed;
 
-        public Task(String title) {
+        private Task(String title) {
             this.title = title;
         }
 
-        public String getTitle() {
-            return this.title;
+        public static Task of(String text) {
+            String[] sections = text.split("/");
+            switch (text.split(" ")[0]) {
+                case "event":
+                    return new Event(sections[0].substring(6), 
+                            sections[1].substring(5), 
+                            sections[2].substring(3)
+                        );
+                case "deadline":
+                    return new Deadline(sections[0].substring(9), 
+                            sections[1].substring(3)
+                        );
+                case "todo":
+                    return new ToDo(sections[0].substring(5));
+                default:
+                    throw new IllegalArgumentException("Task is not of defined types");
+            }
+
         }
 
         public void markComplete() {
@@ -49,8 +65,58 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             this.completed = false;
         }
 
-        public String getComplete() {
+        private String getComplete() {
             return this.completed ? "X" : " ";
+        }
+
+        @Override
+        public String toString() {
+            return "[" + this.getComplete() + "] " + this.title;
+        }
+
+        public static class ToDo extends Task {
+
+            public ToDo(String title) {
+                super(title);
+            }
+
+            @Override
+            public String toString() {
+                return "[T]" + super.toString();
+            }
+
+        }
+
+        public static class Deadline extends Task {
+            private String deadline;
+
+            public Deadline(String title, String deadline) {
+                super(title);
+                this.deadline = deadline;
+            }
+
+            @Override
+            public String toString() {
+                return "[D]" + super.toString() + "(Imminent: " + this.deadline + ")";
+            }
+
+        }
+
+        public static class Event extends Task {
+            private String start;
+            private String end;
+
+            public Event(String title, String start, String end) {
+                super(title);
+                this.start = start;
+                this.end = end;
+            }
+
+            @Override
+            public String toString() {
+                return "[E]" + super.toString() + "(alpha: " + this.start + ", delta: " + this.end + ")";
+            }
+
         }
     }
 
@@ -102,36 +168,39 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        //launch();
+        launch();
         String input = scanner.nextLine();
         int task_num;
         while (!input.equals("bye")) {
             line();
             switch (input.split(" ")[0]) {
                 case "list", "ls" -> {
+                    System.out.println("\t\t-Outstanding Missions-");
                     for (int i = 0; i < tasks.size(); i++) {
-                        Task curr_task = tasks.get(i);
-                        System.out.println("\t" + (i + 1) + ".[" + curr_task.getComplete()  + "] " + curr_task.getTitle());
+                        System.out.println("\t" + (i + 1) + "." + tasks.get(i));
                     }
                 }
                 case "mark" -> {
                     task_num = Integer.parseInt(input.split(" ")[1]);
                     tasks.get(task_num - 1).markComplete();
-                    System.out.println("\t[" + tasks.get(task_num - 1).getComplete()  + "] " + tasks.get(task_num - 1).getTitle());
+                    System.out.println("\t" + tasks.get(task_num - 1));
+                    System.out.println("\t\t-Mission Completed-");
                 }
                 case "unmark" -> {
                     task_num = Integer.parseInt(input.split(" ")[1]);
                     tasks.get(task_num - 1).markIncomplete();
-                    System.out.println("\t[" + tasks.get(task_num - 1).getComplete()  + "] " + tasks.get(task_num - 1).getTitle());
+                    System.out.println("\t" + tasks.get(task_num - 1));
+                    System.out.println("\t\t-Mission Unsuccessful-");
                 }
                 default -> {
-                    tasks.add(new Task(input));
-                    System.out.println("\t>>> " + input + "\n\t\t-Mael Acknowleged-");
+                    tasks.add(Task.of(input));
+                    System.out.println("\t>>> " + tasks.get(tasks.size() - 1));
+                    System.out.println("\t\t-Mael Acknowleged-");
                 }
             }
             line();
             input = scanner.nextLine();
         }
-        //close();
+        close();
     }
 }
