@@ -1,6 +1,4 @@
-
 import java.util.Random;
-
 
 public class Mael {
 
@@ -30,7 +28,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
 
     private static void launch() throws InterruptedException  {
-        String[] text = new String[] {"Loading Mael", ".", ".", ".\n",null,"Mael loaded\n","Awaiting instructions", ".", ".", ".\n"};
+        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
 
         for (int i = 0; i < text.length; i++) {
@@ -44,6 +42,20 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         
     }
 
+    private static void close() throws InterruptedException {
+        String[] text = new String[] {"Wiping Mael", ".", ".", ".\n",null,"Mael Erased\n","Like you were never here...\n"};
+        int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 1200};
+
+        for (int i = 0; i < text.length; i++) {
+            if (i == 4) {
+                Mael.line_by_line(LOGO);
+            } else {
+                System.out.print(text[i]);
+            }
+            Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+        }
+    }
+
     private static void line_by_line(String text) throws InterruptedException {
         String[] lines = text.split("\n");
         for (String line : lines) {
@@ -53,5 +65,6 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
     public static void main(String[] args) throws InterruptedException {
         launch();
+        close();
     }
 }
