@@ -30,7 +30,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         """;
 
     private static class Task {
-        private String title;
+        private final String title;
+        private boolean completed;
 
         public Task(String title) {
             this.title = title;
@@ -38,6 +39,18 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
         public String getTitle() {
             return this.title;
+        }
+
+        public void markComplete() {
+            this.completed = true;
+        }
+
+        public void markIncomplete() {
+            this.completed = false;
+        }
+
+        public String getComplete() {
+            return this.completed ? "X" : " ";
         }
     }
 
@@ -89,24 +102,36 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        launch();
-        String input = scanner.nextLine();;
+        //launch();
+        String input = scanner.nextLine();
+        int task_num;
         while (!input.equals("bye")) {
             line();
-            switch (input) {
-                case "list":
-                case "ls":
+            switch (input.split(" ")[0]) {
+                case "list", "ls" -> {
                     for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println("\t" + (i + 1) + ". " + tasks.get(i).getTitle());
-                    } 
-                    break;
-                default:
+                        Task curr_task = tasks.get(i);
+                        System.out.println("\t" + (i + 1) + ".[" + curr_task.getComplete()  + "] " + curr_task.getTitle());
+                    }
+                }
+                case "mark" -> {
+                    task_num = Integer.parseInt(input.split(" ")[1]);
+                    tasks.get(task_num - 1).markComplete();
+                    System.out.println("\t[" + tasks.get(task_num - 1).getComplete()  + "] " + tasks.get(task_num - 1).getTitle());
+                }
+                case "unmark" -> {
+                    task_num = Integer.parseInt(input.split(" ")[1]);
+                    tasks.get(task_num - 1).markIncomplete();
+                    System.out.println("\t[" + tasks.get(task_num - 1).getComplete()  + "] " + tasks.get(task_num - 1).getTitle());
+                }
+                default -> {
                     tasks.add(new Task(input));
                     System.out.println("\t>>> " + input + "\n\t\t-Mael Acknowleged-");
+                }
             }
             line();
             input = scanner.nextLine();
         }
-        close();
+        //close();
     }
 }
