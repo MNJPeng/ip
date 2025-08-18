@@ -1,4 +1,6 @@
-# Duke User Guide
+# Mael User Guide
+
+Mael skull ascii image source: https://v2test.asciiart.website/art/4625
 
 // Update the title above to match the actual product name
 
