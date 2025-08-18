@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,6 +29,19 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
+    private static class Task {
+        private String title;
+
+        public Task(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return this.title;
+        }
+    }
+
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     private static void launch() throws InterruptedException  {
         String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n"};
@@ -75,14 +89,24 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        //launch();
-        String input = "";
+        launch();
+        String input = scanner.nextLine();;
         while (!input.equals("bye")) {
+            line();
+            switch (input) {
+                case "list":
+                case "ls":
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println("\t" + (i + 1) + ". " + tasks.get(i).getTitle());
+                    } 
+                    break;
+                default:
+                    tasks.add(new Task(input));
+                    System.out.println("\t>>> " + input + "\n\t\t-Mael Acknowleged-");
+            }
+            line();
             input = scanner.nextLine();
-            line();
-            System.out.println("\t" + input);
-            line();
         }
-        //close();
+        close();
     }
 }
