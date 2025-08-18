@@ -1,8 +1,10 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Mael {
 
     private static Random rng = new Random();
+    private static Scanner scanner = new Scanner(System.in);
     private static final String LOGO = 
         """
        .oXXXXXXXXXXXXXXXXXXo.
@@ -28,7 +30,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
 
     private static void launch() throws InterruptedException  {
-        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n\n"};
+        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
 
         for (int i = 0; i < text.length; i++) {
@@ -43,7 +45,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
 
     private static void close() throws InterruptedException {
-        String[] text = new String[] {"Wiping Mael", ".", ".", ".\n",null,"Mael Erased\n","Like you were never here...\n"};
+        String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n",null,"Mael Erased\n","Like you were never here...\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 1200};
 
         for (int i = 0; i < text.length; i++) {
@@ -56,6 +58,15 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
 
+    private static void line() {
+        String[] symbols = new String[] {"~", "-", "=", "+", "#"};
+        String line = "";
+        for (int i = 0; i < 50; i++) {
+            line += symbols[rng.nextInt(0, symbols.length - 1)];
+        }
+        System.out.println("\n" + line);
+    }
+
     private static void line_by_line(String text) throws InterruptedException {
         String[] lines = text.split("\n");
         for (String line : lines) {
@@ -64,7 +75,14 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        launch();
-        close();
+        //launch();
+        String input = "";
+        while (!input.equals("bye")) {
+            input = scanner.nextLine();
+            line();
+            System.out.println("\t" + input);
+            line();
+        }
+        //close();
     }
 }
