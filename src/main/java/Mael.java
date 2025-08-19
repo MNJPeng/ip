@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Mael {
 
-    private static final Random rng = new Random();
+    private static final Random rng = new Random(100);
     private static final Scanner scanner = new Scanner(System.in);
     private static final String LOGO = 
         """
@@ -123,7 +123,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     private static ArrayList<Task> tasks = new ArrayList<>();
 
     private static void launch() throws InterruptedException  {
-        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n"};
+        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
 
         for (int i = 0; i < text.length; i++) {

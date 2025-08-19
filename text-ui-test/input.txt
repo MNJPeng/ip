@@ -1,0 +1,13 @@
+todo buy bananas
+deadline project milestone 1 /by August 22nd
+mark 1
+list
+todo go home
+event Splashdown /from 27 Aug 5:30pm /to 9pm
+mark 3
+ls
+unmark 1
+mark 2
+ls
+mark 4
+bye
