@@ -101,6 +101,110 @@ Awaiting instructions...
 
 ~~~~-=~=~-++~~+==-~==~-+~=~++~~+~-+==-~+~==~+~=~-~
 
+==--=-~=+-~+==~+=-~=~~=+++~~~++~+-~~~+-=~-+==~+=~+
+        Mael encountered a critical error...
+                ToDo activity unspecified
+
+                -Terminated request-
+
+=--=~+=+++-=~~-++-==~~++--=--++~~=~--=+~-+-=-====~
+
+==~-++-~~~=~--+-+~=~-+-++=--++=-==-==~+=-=+++====+
+        >>> [T][ ] gym
+                -Mael Acknowleged-
+
+---~++-~--~-=~~++-==+-~=+=-=--++--+=~+-~+=-=+==-+~
+
+~==~+-=+==-+-~+~+=++~+-~==~--+~=+~+~~=-~~--=+--=-~
+        Mael encountered a critical error...
+                Mission not yet complete
+
+                -Terminated request-
+
+~+--+~==-=~-+=-+=+~=++-~-+=+-+~+++=-+~====-~==~~~=
+
++~~+==-+==+~=+-~-~+-=-~+=~+-==~--=-~+~=~=--+---~+-
+        [T][X] gym
+                -Mission Completed-
+
+=~=~=+~~=+-==----=~-+~~~--=-~~~--+-=~-+--~-++~-+~-
+
+~+-==~++-=--~~+~-~+~+==~~==~+~+--++----~--~-+-~-~-
+        Mael encountered a critical error...
+                Mission already complete
+
+                -Terminated request-
+
+==+~-+~+++~+-=-+-+-=-++--=~~-~+=-=-+~-+-++~-=~-+++
+
+=~+=~+-+~+-~=+~~+=-=+--====+~==-~=-~==++++~~-+~~==
+        Mael encountered a critical error...
+                Event activity unspecified
+
+                -Terminated request-
+
+++-=-=~-=~~---=--~-~+~-+==++~=-=+=~-+=~=--+~~+-~=~
+
++==-=-~-==-===~~=-~=+=~++=~+---+==+=----~-=~+~==-+
+        Mael encountered a critical error...
+                Event details unclear
+
+                -Terminated request-
+
++=---+=+~-=---~~=++~-==++~==-===-====+-~~=~===++~~
+
+~--~+-~+-~==-+-=-=+-+--~=~~=+~~-~=~+-==+-+~-==+=+-
+        Mael encountered a critical error...
+                Event boundaries unclear
+
+                -Terminated request-
+
+=~=-=~-=~=====+~=+=+~--+~=-=+=~--+~-++---~+=++--~-
+
++~+=++~+-~==~-~~=-~+=~+--~=~---+~~-~-++++++=++-=~~
+        >>> [E][ ] holiday (alpha: monday , delta: friday)
+                -Mael Acknowleged-
+
+==~~+=-++=~~-=-~~-~-==+~=+-~=-==~==-~-+~=+=~-+=++~
+
+~=+~-+~+-+=-+~+-===~+=~~+~~~==+~--~--+~~~-==~====~
+        Mael encountered a critical error...
+                Unknown Mission
+
+                -Terminated request-
+
+=-~=~====++~++=~~-=~=~=--~=+--+=+=~++~-+~++=+~-+~~
+
+-++-+~+++~~=-----=+-==~+=~~+~+===~-=+--~+~~-+~-~~=
+        Mael encountered a critical error...
+                Deadline details unclear
+
+                -Terminated request-
+
+=+=+--=--~~~=~-=+=----~~~=+~==-~~--~~~===+--=~===+
+
+=~-+~+~-+~~++~+==++~-=+~=+~+-+~~=--+-=-=~-++~--~+~
+        Mael encountered a critical error...
+                Deadline unclear
+
+                -Terminated request-
+
+--~=-+--+=-=~---~+--=-=+~==~===~=++-+~~~~++++=++=-
+
+~++=~-=~=~~~~=+==~=~~+-~+-+++~++~---~~=-~=-=-~+=~=
+        >>> [D][ ] <> (Imminent: 1pm)
+                -Mael Acknowleged-
+
+---+~~-~=~++~+~=++~+=-+-~--+=++-~~=~-=~=~---~~++-=
+
+-+-~-==++--=-=+=--+~=~~==-+==++~++~+~-=--=+-+++-~+
+        Mael encountered a critical error...
+                Mission unspecified
+
+                -Terminated request-
+
+=---=~--=~-+=+-~-~--~+-=~--~++~-=-=+=-~=~~~+---=+-
+
 Wiping Mael...
        .oXXXXXXXXXXXXXXXXXXo.
      .oXXXXX/XXXXXXXX\XXXXXXXo.

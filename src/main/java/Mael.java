@@ -37,31 +37,53 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             this.title = title;
         }
 
-        public static Task of(String text) {
+        public static Task of(String text) throws MaelException {
             String[] sections = text.split("/");
             switch (text.split(" ")[0]) {
-                case "event":
-                    return new Event(sections[0].substring(6), 
-                            sections[1].substring(5), 
-                            sections[2].substring(3)
-                        );
-                case "deadline":
-                    return new Deadline(sections[0].substring(9), 
-                            sections[1].substring(3)
-                        );
-                case "todo":
-                    return new ToDo(sections[0].substring(5));
-                default:
-                    throw new IllegalArgumentException("Task is not of defined types");
+                case "event" -> {
+                    if (text.split(" ").length == 1) {
+                        throw new MaelException("Event activity unspecified");
+                    } else if (sections.length != 3) {
+                        throw new MaelException("Event details unclear");
+                    } else if (!sections[1].substring(0, 4).equals("from") || !sections[2].substring(0, 2).equals("to")) {
+                        throw new MaelException("Event boundaries unclear");
+                    }
+                    return new Event(sections);
+                }
+                case "deadline" -> {
+                    if (text.split(" ").length == 1) {
+                        throw new MaelException("Deadline activity unspecified");
+                    } else if (sections.length != 2) {
+                        throw new MaelException("Deadline details unclear");
+                    } else if (!sections[1].substring(0, 2).equals("by")) {
+                        throw new MaelException("Deadline unclear");
+                    }
+                    return new Deadline(sections);
+                }
+                case "todo" -> {
+                    if (text.split(" ").length == 1) {
+                        throw new MaelException("ToDo activity unspecified");
+                    } else if (sections.length != 1) {
+                        throw new MaelException("ToDo details unclear");
+                    }
+                    return new ToDo(sections);
+                }
+                default -> throw new MaelException("Unknown Mission");
             }
 
         }
 
-        public void markComplete() {
+        public void markComplete() throws MaelException {
+            if (this.completed) {
+                throw new MaelException("Mission already complete");
+            }
             this.completed = true;
         }
 
-        public void markIncomplete() {
+        public void markIncomplete() throws MaelException {
+            if (!this.completed) {
+                throw new MaelException("Mission not yet complete");
+            }
             this.completed = false;
         }
 
@@ -76,8 +98,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
         public static class ToDo extends Task {
 
-            public ToDo(String title) {
-                super(title);
+            public ToDo(String[] sections) {
+                super(sections[0].substring(5));
             }
 
             @Override
@@ -90,9 +112,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         public static class Deadline extends Task {
             private String deadline;
 
-            public Deadline(String title, String deadline) {
-                super(title);
-                this.deadline = deadline;
+            public Deadline(String[] sections) {
+                super(sections[0].substring(9));
+                this.deadline = sections[1].substring(3);
             }
 
             @Override
@@ -106,10 +128,10 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             private String start;
             private String end;
 
-            public Event(String title, String start, String end) {
-                super(title);
-                this.start = start;
-                this.end = end;
+            public Event(String[] sections) {
+                super(sections[0].substring(6));
+                this.start = sections[1].substring(5);
+                this.end = sections[2].substring(3);
             }
 
             @Override
@@ -121,6 +143,19 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
 
     private static ArrayList<Task> tasks = new ArrayList<>();
+
+    private static class MaelException extends Exception {
+
+        public MaelException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String toString() {
+            return "\tMael encountered a critical error...\n\t\t" + super.getMessage() + "\n\n\t\t-Terminated request-";
+        }
+        
+    }
 
     private static void launch() throws InterruptedException  {
         String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n\n"};
@@ -175,27 +210,52 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             line();
             switch (input.split(" ")[0]) {
                 case "list", "ls" -> {
-                    System.out.println("\t\t-Outstanding Missions-");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println("\t" + (i + 1) + "." + tasks.get(i));
+                    if (input.split(" ").length == 1) {
+                        System.out.println("\t\t-Outstanding Missions-");
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println("\t" + (i + 1) + "." + tasks.get(i));
+                        }
+                    } else {
+                        System.out.println(new MaelException("Unknown command for list"));
                     }
                 }
-                case "mark" -> {
-                    task_num = Integer.parseInt(input.split(" ")[1]);
-                    tasks.get(task_num - 1).markComplete();
-                    System.out.println("\t" + tasks.get(task_num - 1));
-                    System.out.println("\t\t-Mission Completed-");
+                case "mark", "m" -> {
+                    try {
+                        task_num = Integer.parseInt(input.split(" ")[1]);
+                        tasks.get(task_num - 1).markComplete();
+                        System.out.println("\t" + tasks.get(task_num - 1));
+                        System.out.println("\t\t-Mission Completed-");
+                    } catch (NumberFormatException e) {
+                        System.out.println(new MaelException("Mark details unclear"));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(new MaelException("Mission unspecified"));
+                    } catch (MaelException e) {
+                        System.out.println(e);
+                    }
                 }
-                case "unmark" -> {
-                    task_num = Integer.parseInt(input.split(" ")[1]);
-                    tasks.get(task_num - 1).markIncomplete();
-                    System.out.println("\t" + tasks.get(task_num - 1));
-                    System.out.println("\t\t-Mission Unsuccessful-");
+                case "unmark", "um" -> {
+                    try {
+                        task_num = Integer.parseInt(input.split(" ")[1]);
+                        tasks.get(task_num - 1).markIncomplete();
+                        System.out.println("\t" + tasks.get(task_num - 1));
+                        System.out.println("\t\t-Mission Unsuccessful-");
+                    } catch (NumberFormatException e) {
+                        System.out.println(new MaelException("Unmark details unclear"));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(new MaelException("Mission unspecified"));
+                    } catch (MaelException e) {
+                        System.out.println(e);
+                    }
+                    
                 }
                 default -> {
-                    tasks.add(Task.of(input));
-                    System.out.println("\t>>> " + tasks.get(tasks.size() - 1));
-                    System.out.println("\t\t-Mael Acknowleged-");
+                    try {
+                        tasks.add(Task.of(input));
+                        System.out.println("\t>>> " + tasks.get(tasks.size() - 1));
+                        System.out.println("\t\t-Mael Acknowleged-");
+                    } catch (MaelException e) {
+                        System.out.println(e);
+                    } 
                 }
             }
             line();

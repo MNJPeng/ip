@@ -10,4 +10,18 @@ unmark 1
 mark 2
 ls
 mark 4
+todo
+todo gym
+um 5
+m 5
+m 5
+event
+event holiday /
+event holiday /f monday /t friday
+event holiday /from monday /to friday
+bad input
+deadline <>
+deadline <> /b 1pm
+deadline <> /by 1pm
+m 8
 bye
