@@ -205,6 +205,64 @@ Awaiting instructions...
 
 =---=~--=~-+=+-~-~--~+-=~--~++~-=-=+=-~=~~~+---=+-
 
+~+~=~+-+=~++-~~~-=-=-=--==---~=~-=+~=~--~~~~+++=-+
+                -Outstanding Missions-
+        1.[T][ ] buy bananas
+        2.[D][X] project milestone 1 (Imminent: August 22nd)
+        3.[T][X] go home
+        4.[E][X] Splashdown (alpha: 27 Aug 5:30pm , delta: 9pm)
+        5.[T][X] gym
+        6.[E][ ] holiday (alpha: monday , delta: friday)
+        7.[D][ ] <> (Imminent: 1pm)
+
+-~=--+~~-===++++~+=+~--~-~-+++~=--~=-+++-=~=-~~-~-
+
+=-===+==-+~+~==+==~+~~-~+-~-=--~~-~++-+=-~++=+=-+-
+        Mael encountered a critical error...
+                Mission unspecified
+
+                -Terminated request-
+
++~===~+=~-===+-+-=~+-~==~-=+~===-=~++=++=~~-~---==
+
+~-+~~~-=~+-~--==-+~=~~--+=-~+-=+~====+~++=~==+===+
+        Mael encountered a critical error...
+                Termination details unclear
+
+                -Terminated request-
+
+=~====-~~+-+---+-===~=-=-~-~=~++~~--~=~~-=-~+~~+~~
+
+===-~+~=~+-=~==+-~+---~-~+-~~++~++~=-==~=-+=-~-+-+
+        Mael encountered a critical error...
+                Mission unspecified
+
+                -Terminated request-
+
++~~~=~===-~+++-~-+++====-=-+~-=~--~~+++==++=+++-=+
+
+~--~-~=~=-+=~-~-+=-==-===~+=++--=--++==+===~+=-~+=
+        [D][ ] <> (Imminent: 1pm)
+                -Mission Terminated-
+
+==~+-+-=~=+=-++=~-~==+=+=-+~=+-+--=~+~~~--~-=~--=+
+
++--~-+=+~=-~--+~==-++-=-=--~~--===+=-++~--=-+==~~~
+        [E][ ] holiday (alpha: monday , delta: friday)
+                -Mission Terminated-
+
+==-=~~---+=++~+=--~+~++-+~++-+=~=+++=-~==--++++~=-
+
++=-~=-=+~+-+=+-~-+~~-~-=+~=-=-===-=====-+~~+=~~++=
+                -Outstanding Missions-
+        1.[T][ ] buy bananas
+        2.[D][X] project milestone 1 (Imminent: August 22nd)
+        3.[T][X] go home
+        4.[E][X] Splashdown (alpha: 27 Aug 5:30pm , delta: 9pm)
+        5.[T][X] gym
+
++-==~+=++~+~-~-+~+=+~-~=-=~+=+--=~~~==++=+~=~~~-==
+
 Wiping Mael...
        .oXXXXXXXXXXXXXXXXXXo.
      .oXXXXX/XXXXXXXX\XXXXXXXo.

@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Mael {
 
+    private static final boolean DELAY = true; // Set to false for no delays
+
     private static final Random rng = new Random(100);
     private static final Scanner scanner = new Scanner(System.in);
     private static final String LOGO = 
@@ -167,7 +169,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             } else {
                 System.out.print(text[i]);
             }
-            Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+            if (DELAY) {
+                Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+            }
         }
         
     }
@@ -182,7 +186,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             } else {
                 System.out.print(text[i]);
             }
-            Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+            if (DELAY) {
+                Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+            }
         }
     }
 
@@ -199,7 +205,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         String[] lines = text.split("\n");
         for (String line : lines) {
             System.out.println(line);
-            Thread.sleep(50 + rng.nextInt(0, 100));
+            if (DELAY) {
+                Thread.sleep(50 + rng.nextInt(0, 100));
+            }
         }
     }
     public static void main(String[] args) throws InterruptedException {
@@ -247,6 +255,18 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                         System.out.println(e);
                     }
                     
+                }
+                case "delete", "del" -> {
+                    try {
+                        task_num = Integer.parseInt(input.split(" ")[1]);
+                        System.out.println("\t" + tasks.get(task_num - 1));
+                        tasks.remove(task_num - 1);
+                        System.out.println("\t\t-Mission Terminated-");
+                    } catch (NumberFormatException e) {
+                        System.out.println(new MaelException("Termination details unclear"));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(new MaelException("Mission unspecified"));
+                    }
                 }
                 default -> {
                     try {

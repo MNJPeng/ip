@@ -24,4 +24,11 @@ deadline <>
 deadline <> /b 1pm
 deadline <> /by 1pm
 m 8
+list
+del
+del x
+del 8
+delete 7
+del 6
+ls
 bye
