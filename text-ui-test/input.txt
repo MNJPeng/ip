@@ -31,4 +31,7 @@ del 8
 delete 7
 del 6
 ls
+m 3 we
+um 4 nis
+del 2 time
 bye

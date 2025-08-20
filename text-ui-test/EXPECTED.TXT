@@ -263,6 +263,30 @@ Awaiting instructions...
 
 +-==~+=++~+~-~-+~+=+~-~=-=~+=+--=~~~==++=+~=~~~-==
 
+~-+-+=~=~=~~=~--++~~--~-++=~=+~+=~+~+~==~+~=~=~~=+
+	Mael encountered a critical error...
+		Unknown command for mark
+
+		-Terminated request-
+
+~==~+~-=~-~~++-+-==+====---~~-++-=~-=+=~~~=~=~-=++
+
+=~~=~~~-=-~~~~~=~~==-~~+~~-+-=++~=-=~~+=+=--==~~=~
+	Mael encountered a critical error...
+		Unknown command for unmark
+
+		-Terminated request-
+
+--~+~~=~-~++-=~=~=+~-~++---~-==-=~-~==++~~-~~~=+-=
+
+~-=+~++=~=++~~-~-~~~-=--~=~=-=~=--++~=~=--+=+-++~=
+	Mael encountered a critical error...
+		Unknown command for delete
+
+		-Terminated request-
+
+=~=---~--==+==~~+-~==+=-~-~++==~=-+===-~~-=-=+===+
+
 Wiping Mael...
        .oXXXXXXXXXXXXXXXXXXo.
      .oXXXXX/XXXXXXXX\XXXXXXXo.

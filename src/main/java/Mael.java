@@ -228,45 +228,56 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                     }
                 }
                 case "mark", "m" -> {
-                    try {
-                        task_num = Integer.parseInt(input.split(" ")[1]);
-                        tasks.get(task_num - 1).markComplete();
-                        System.out.println("\t" + tasks.get(task_num - 1));
-                        System.out.println("\t\t-Mission Completed-");
-                    } catch (NumberFormatException e) {
-                        System.out.println(new MaelException("Mark details unclear"));
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println(new MaelException("Mission unspecified"));
-                    } catch (MaelException e) {
-                        System.out.println(e);
+                    if (input.split(" ").length == 2) {
+                        try {
+                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            tasks.get(task_num - 1).markComplete();
+                            System.out.println("\t" + tasks.get(task_num - 1));
+                            System.out.println("\t\t-Mission Completed-");
+                        } catch (NumberFormatException e) {
+                            System.out.println(new MaelException("Mark details unclear"));
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println(new MaelException("Mission unspecified"));
+                        } catch (MaelException e) {
+                            System.out.println(e);
+                        }
+                    } else {
+                        System.out.println(new MaelException("Unknown command for mark"));
                     }
                 }
                 case "unmark", "um" -> {
-                    try {
-                        task_num = Integer.parseInt(input.split(" ")[1]);
-                        tasks.get(task_num - 1).markIncomplete();
-                        System.out.println("\t" + tasks.get(task_num - 1));
-                        System.out.println("\t\t-Mission Unsuccessful-");
-                    } catch (NumberFormatException e) {
-                        System.out.println(new MaelException("Unmark details unclear"));
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println(new MaelException("Mission unspecified"));
-                    } catch (MaelException e) {
-                        System.out.println(e);
-                    }
-                    
+                    if (input.split(" ").length == 2) {
+                        try {
+                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            tasks.get(task_num - 1).markIncomplete();
+                            System.out.println("\t" + tasks.get(task_num - 1));
+                            System.out.println("\t\t-Mission Unsuccessful-");
+                        } catch (NumberFormatException e) {
+                            System.out.println(new MaelException("Unmark details unclear"));
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println(new MaelException("Mission unspecified"));
+                        } catch (MaelException e) {
+                            System.out.println(e);
+                        }
+                    } else {
+                        System.out.println(new MaelException("Unknown command for unmark"));
+                    } 
                 }
                 case "delete", "del" -> {
-                    try {
-                        task_num = Integer.parseInt(input.split(" ")[1]);
-                        System.out.println("\t" + tasks.get(task_num - 1));
-                        tasks.remove(task_num - 1);
-                        System.out.println("\t\t-Mission Terminated-");
-                    } catch (NumberFormatException e) {
-                        System.out.println(new MaelException("Termination details unclear"));
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println(new MaelException("Mission unspecified"));
-                    }
+                    if (input.split(" ").length == 2) {
+                        try {
+                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            System.out.println("\t" + tasks.get(task_num - 1));
+                            tasks.remove(task_num - 1);
+                            System.out.println("\t\t-Mission Terminated-");
+                        } catch (NumberFormatException e) {
+                            System.out.println(new MaelException("Termination details unclear"));
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println(new MaelException("Mission unspecified"));
+                        }
+                    } else {
+                        System.out.println(new MaelException("Unknown command for delete"));
+                    } 
                 }
                 default -> {
                     try {
