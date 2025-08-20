@@ -6,8 +6,8 @@ public class Mael {
 
     private static final boolean DELAY = true; // Set to false for no delays
 
-    private static final Random rng = new Random(100);
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Random RNG = new Random(100);
+    private static final Scanner SCANNER = new Scanner(System.in);
     private static final String LOGO = 
         """
        .oXXXXXXXXXXXXXXXXXXo.
@@ -31,6 +31,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
+    // Class to encapsulate Tasks and its subclasses
     private abstract static class Task {
         private final String title;
         private boolean completed;
@@ -47,7 +48,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                         throw new MaelException("Event activity unspecified");
                     } else if (sections.length != 3) {
                         throw new MaelException("Event details unclear");
-                    } else if (!sections[1].substring(0, 4).equals("from") || !sections[2].substring(0, 2).equals("to")) {
+                    } else if (!sections[1].substring(0, 4).equals("from") 
+                            || !sections[2].substring(0, 2).equals("to")) {
                         throw new MaelException("Event boundaries unclear");
                     }
                     return new Event(sections);
@@ -144,8 +146,10 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
 
+    // List of Tasks
     private static ArrayList<Task> tasks = new ArrayList<>();
 
+    // For exceptions specific to Mael
     private static class MaelException extends Exception {
 
         public MaelException(String message) {
@@ -154,13 +158,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
         @Override
         public String toString() {
-            return "\tMael encountered a critical error...\n\t\t" + super.getMessage() + "\n\n\t\t-Terminated request-";
+            return "\tMael encountered a critical error...\n\t\t" 
+                    + super.getMessage() + "\n\n\t\t-Terminated request-";
         }
         
     }
 
+    // Method to display the initial text when running Mael
     private static void launch() throws InterruptedException  {
-        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n",null,"Mael injection complete\n","Awaiting instructions", ".", ".", ".\n\n"};
+        String[] text = new String[] {"Injecting Mael", ".", ".", ".\n", null, 
+                "Mael injection complete\n", "Awaiting instructions", ".", ".", ".\n\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
 
         for (int i = 0; i < text.length; i++) {
@@ -170,14 +177,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 System.out.print(text[i]);
             }
             if (DELAY) {
-                Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+                Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
             }
         }
         
     }
 
+    // Method to display the final text when ending Mael
     private static void close() throws InterruptedException {
-        String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n",null,"Mael Erased\n","Like you were never here...\n"};
+        String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n", null, 
+                "Mael Erased\n", "Like you were never here...\n"};
         int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 1200};
 
         for (int i = 0; i < text.length; i++) {
@@ -187,36 +196,41 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 System.out.print(text[i]);
             }
             if (DELAY) {
-                Thread.sleep(delays[i] + rng.nextInt(0,400) - 200);
+                Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
             }
         }
     }
 
+    // Method to display the line divider text between inputs and outputs of Mael
     private static void line() {
         String[] symbols = new String[] {"~", "-", "=", "+", "#"};
         String line = "";
         for (int i = 0; i < 50; i++) {
-            line += symbols[rng.nextInt(0, symbols.length - 1)];
+            line += symbols[RNG.nextInt(0, symbols.length - 1)];
         }
         System.out.println("\n" + line);
     }
 
+    /** 
+     * Method to display the logo line by line with delays
+     * 
+     * @param text Text to be displayed line by line
+     */
     private static void line_by_line(String text) throws InterruptedException {
         String[] lines = text.split("\n");
         for (String line : lines) {
             System.out.println(line);
             if (DELAY) {
-                Thread.sleep(50 + rng.nextInt(0, 100));
+                Thread.sleep(50 + RNG.nextInt(0, 100));
             }
         }
     }
     public static void main(String[] args) throws InterruptedException {
         launch();
-        String input = scanner.nextLine();
-        int task_num;
-        while (!input.equals("bye")) {
+        String input = SCANNER.nextLine();
+        while (!input.equals("bye")) {  // Early termination when "bye" is input
             line();
-            switch (input.split(" ")[0]) {
+            switch (input.split(" ")[0]) {  // Switch only checking for the first word
                 case "list", "ls" -> {
                     if (input.split(" ").length == 1) {
                         System.out.println("\t\t-Outstanding Missions-");
@@ -230,7 +244,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 case "mark", "m" -> {
                     if (input.split(" ").length == 2) {
                         try {
-                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            int task_num = Integer.parseInt(input.split(" ")[1]);
                             tasks.get(task_num - 1).markComplete();
                             System.out.println("\t" + tasks.get(task_num - 1));
                             System.out.println("\t\t-Mission Completed-");
@@ -248,7 +262,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 case "unmark", "um" -> {
                     if (input.split(" ").length == 2) {
                         try {
-                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            int task_num = Integer.parseInt(input.split(" ")[1]);
                             tasks.get(task_num - 1).markIncomplete();
                             System.out.println("\t" + tasks.get(task_num - 1));
                             System.out.println("\t\t-Mission Unsuccessful-");
@@ -266,7 +280,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 case "delete", "del" -> {
                     if (input.split(" ").length == 2) {
                         try {
-                            task_num = Integer.parseInt(input.split(" ")[1]);
+                            int task_num = Integer.parseInt(input.split(" ")[1]);
                             System.out.println("\t" + tasks.get(task_num - 1));
                             tasks.remove(task_num - 1);
                             System.out.println("\t\t-Mission Terminated-");
@@ -290,7 +304,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 }
             }
             line();
-            input = scanner.nextLine();
+            input = SCANNER.nextLine();
         }
         close();
     }
