@@ -31,7 +31,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
-    // Class to encapsulate Tasks and its subclasses
+    /** 
+     * Class to encapsulate Tasks and its subclasses
+     */ 
     private abstract static class Task {
         private final String title;
         private boolean completed;
@@ -149,7 +151,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     // List of Tasks
     private static ArrayList<Task> tasks = new ArrayList<>();
 
-    // For exceptions specific to Mael
+    /**
+     * For exceptions specific to Mael
+     */ 
     private static class MaelException extends Exception {
 
         public MaelException(String message) {
@@ -164,7 +168,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         
     }
 
-    // Method to display the initial text when running Mael
+    /**
+     * Method to display the initial text when running Mael
+     */ 
     private static void launch() throws InterruptedException  {
         String[] text = new String[] {"Injecting Mael", ".", ".", ".\n", null, 
                 "Mael injection complete\n", "Awaiting instructions", ".", ".", ".\n\n"};
@@ -183,7 +189,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         
     }
 
-    // Method to display the final text when ending Mael
+    /** 
+     * Method to display the final text when ending Mael
+     */ 
     private static void close() throws InterruptedException {
         String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n", null, 
                 "Mael Erased\n", "Like you were never here...\n"};
@@ -201,7 +209,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
 
-    // Method to display the line divider text between inputs and outputs of Mael
+    /** 
+     * Method to display the line divider text between inputs and outputs of Mael
+     */ 
     private static void line() {
         String[] symbols = new String[] {"~", "-", "=", "+", "#"};
         String line = "";
