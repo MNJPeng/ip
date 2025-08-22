@@ -1,2 +1,0 @@
-T | X | apple
-D |   | pee  | 16

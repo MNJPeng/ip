@@ -105,16 +105,28 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             String[] sections = text.split(" \\| ");
             switch (sections[0]) {
                 case "T":
-                    tasks.add(new ToDo(sections[2], sections[1].equals("X")));
+                    if (sections.length == 3) {
+                        tasks.add(new ToDo(sections[2], sections[1].equals("X")));
+                    } else {
+                        throw new MaelException("Corrupted ToDo");
+                    }
                     break;
                 case "D":
-                    tasks.add(new Deadline(sections[2], sections[3], sections[1].equals("X")));
+                    if (sections.length == 4) {
+                        tasks.add(new Deadline(sections[2], sections[3], sections[1].equals("X")));
+                    } else {
+                        throw new MaelException("Corrupted Deadline");
+                    }
                     break;
                 case "E":
-                    tasks.add(new Event(sections[2], sections[3], sections[4], sections[1].equals("X")));
+                    if (sections.length == 5) {
+                        tasks.add(new Event(sections[2], sections[3], sections[4], sections[1].equals("X")));
+                    } else {
+                        throw new MaelException("Corrupted Event");
+                    }
                     break;
                 default:
-                    throw new MaelException("Error when loading tasks...");
+                    throw new MaelException("Unable to load unknown task");
             }
         }
         /**
@@ -386,17 +398,15 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
     public static void main(String[] args) throws InterruptedException {
         //launch();
+        File taskFolder = new File("./data");
+        File taskFile = new File("./data/Mael.txt");
         try {
-            File taskFolder = new File("./data");
             if (!taskFolder.exists()) {
                 taskFolder.mkdir();
             } else if (taskFolder.isFile()) {
                 taskFolder.delete();
                 taskFolder.mkdir();
             }
-            if (taskFolder.exists()) {
-            }
-            File taskFile = new File("./data/Mael.txt");
             if (!taskFile.exists()) {
                 taskFile.createNewFile();
             } else if (taskFile.isDirectory()) {
@@ -406,13 +416,25 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             Scanner taskReader = new Scanner(taskFile);
             while (taskReader.hasNextLine()) {
                 String currLine = taskReader.nextLine();
-                Task.generate(currLine);
+                try {
+                    Task.generate(currLine);
+                } catch (MaelException e) {
+                    System.out.println(e);
+                }
+                
             }
             taskReader.close();
         } catch (FileNotFoundException e) {
             System.err.println(e);
-        } catch (IOException | MaelException e) {
+        } catch (IOException e) {
             System.err.println(e);
+        } finally {
+            try {
+                taskFile.delete();
+                taskFile.createNewFile();
+            } catch (IOException e) {
+                System.err.println(e);
+            }
         }
 
         String input = SCANNER.nextLine();
@@ -496,9 +518,6 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
 
         try {
-            File taskFile = new File("./data/Mael.txt");
-            taskFile.delete();
-            taskFile.createNewFile();
             FileWriter taskWriter = new FileWriter("./data/Mael.txt");
             for (Task task : tasks) {
                 taskWriter.write(task.saveString());
