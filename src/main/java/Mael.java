@@ -96,24 +96,23 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
 
         /**
-         * Factory method for {@code Task} during loading 
+         * Loads {@code Task} from text file into active list
          * 
          * @param text Takes user inputs with the form specified in save file ../data/Mael.txt
-         * @return Subclass of {@code Task} depending on input
          * @throws MaelException Thrown when text input is of an unspecified form
          */
-        public static Task generate(String text) throws MaelException {
-            String[] sections = text.split(" | ");
+        public static void generate(String text) throws MaelException {
+            String[] sections = text.split(" \\| ");
             switch (sections[0]) {
                 case "T":
                     tasks.add(new ToDo(sections[2], sections[1].equals("X")));
-
+                    break;
                 case "D":
                     tasks.add(new Deadline(sections[2], sections[3], sections[1].equals("X")));
-
+                    break;
                 case "E":
                     tasks.add(new Event(sections[2], sections[3], sections[4], sections[1].equals("X")));
-                
+                    break;
                 default:
                     throw new MaelException("Error when loading tasks...");
             }
@@ -191,7 +190,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             @Override
             public String saveString() {
-                return "T | " + super.getComplete() + " | " + super.title;
+                return "T | " + super.getComplete() + " | " + super.title + "\n";
             }
 
             @Override
@@ -237,7 +236,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             @Override
             public String saveString() {
-                return "T | " + super.getComplete() + " | " + super.title + " | " + this.deadline;
+                return "D | " + super.getComplete() + " | " + super.title + " | " + this.deadline + "\n";
             }
 
             @Override
@@ -287,7 +286,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             @Override
             public String saveString() {
-                return "T | " + super.getComplete() + " | " + super.title + " | " + this.start + " | " + this.end;
+                return "E | " + super.getComplete() + " | " + super.title + " | " + this.start + " | " + this.end + "\n";
             }
 
             @Override
@@ -388,14 +387,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     public static void main(String[] args) throws InterruptedException {
         //launch();
         try {
-            File taskFolder = new File("../data");
+            File taskFolder = new File("./data");
             if (!taskFolder.exists()) {
                 taskFolder.mkdir();
             } else if (taskFolder.isFile()) {
                 taskFolder.delete();
                 taskFolder.mkdir();
             }
-            File taskFile = new File("../data/Mael.txt");
+            if (taskFolder.exists()) {
+            }
+            File taskFile = new File("./data/Mael.txt");
             if (!taskFile.exists()) {
                 taskFile.createNewFile();
             } else if (taskFile.isDirectory()) {
@@ -405,13 +406,13 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             Scanner taskReader = new Scanner(taskFile);
             while (taskReader.hasNextLine()) {
                 String currLine = taskReader.nextLine();
-                tasks.add(Task.generate(currLine));
+                Task.generate(currLine);
             }
             taskReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.err.println(e);
         } catch (IOException | MaelException e) {
-            e.printStackTrace();
+            System.err.println(e);
         }
 
         String input = SCANNER.nextLine();
@@ -425,7 +426,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                             System.out.println("\t" + (i + 1) + "." + tasks.get(i));
                         }
                     } else {
-                        System.out.println(new MaelException("Unknown command for list"));
+                        System.err.println(new MaelException("Unknown command for list"));
                     }
                 }
                 case "mark", "m" -> {
@@ -436,14 +437,14 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                             System.out.println("\t" + tasks.get(taskNum - 1));
                             System.out.println("\t\t-Mission Completed-");
                         } catch (NumberFormatException e) {
-                            System.out.println(new MaelException("Mark details unclear"));
+                            System.err.println(new MaelException("Mark details unclear"));
                         } catch (IndexOutOfBoundsException e) {
-                            System.out.println(new MaelException("Mission unspecified"));
+                            System.err.println(new MaelException("Mission unspecified"));
                         } catch (MaelException e) {
-                            System.out.println(e);
+                            System.err.println(e);
                         }
                     } else {
-                        System.out.println(new MaelException("Unknown command for mark"));
+                        System.err.println(new MaelException("Unknown command for mark"));
                     }
                 }
                 case "unmark", "um" -> {
@@ -454,14 +455,14 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                             System.out.println("\t" + tasks.get(taskNum - 1));
                             System.out.println("\t\t-Mission Unsuccessful-");
                         } catch (NumberFormatException e) {
-                            System.out.println(new MaelException("Unmark details unclear"));
+                            System.err.println(new MaelException("Unmark details unclear"));
                         } catch (IndexOutOfBoundsException e) {
-                            System.out.println(new MaelException("Mission unspecified"));
+                            System.err.println(new MaelException("Mission unspecified"));
                         } catch (MaelException e) {
-                            System.out.println(e);
+                            System.err.println(e);
                         }
                     } else {
-                        System.out.println(new MaelException("Unknown command for unmark"));
+                        System.err.println(new MaelException("Unknown command for unmark"));
                     } 
                 }
                 case "delete", "del" -> {
@@ -472,12 +473,12 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                             tasks.remove(taskNum - 1);
                             System.out.println("\t\t-Mission Terminated-");
                         } catch (NumberFormatException e) {
-                            System.out.println(new MaelException("Termination details unclear"));
+                            System.err.println(new MaelException("Termination details unclear"));
                         } catch (IndexOutOfBoundsException e) {
-                            System.out.println(new MaelException("Mission unspecified"));
+                            System.err.println(new MaelException("Mission unspecified"));
                         }
                     } else {
-                        System.out.println(new MaelException("Unknown command for delete"));
+                        System.err.println(new MaelException("Unknown command for delete"));
                     } 
                 }
                 default -> {
@@ -486,7 +487,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                         System.out.println("\t>>> " + tasks.get(tasks.size() - 1));
                         System.out.println("\t\t-Mael Acknowleged-");
                     } catch (MaelException e) {
-                        System.out.println(e);
+                        System.err.println(e);
                     } 
                 }
             }
@@ -495,13 +496,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
 
         try {
-            FileWriter taskWriter = new FileWriter("../data/Mael.txt");
+            File taskFile = new File("./data/Mael.txt");
+            taskFile.delete();
+            taskFile.createNewFile();
+            FileWriter taskWriter = new FileWriter("./data/Mael.txt");
             for (Task task : tasks) {
                 taskWriter.write(task.saveString());
             }
             taskWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e);
         }
         //close();
     }
