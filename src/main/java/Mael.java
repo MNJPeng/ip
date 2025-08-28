@@ -2,6 +2,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -41,6 +45,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     private abstract static class Task {
         private final String title;
         private boolean completed;
+        private static DateTimeFormatter userFormat = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
+        private static DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
 
         /**
          * Default constructor of a {@code Task}
@@ -58,7 +64,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          * @return Subclass of {@code Task} depending on input
          * @throws MaelException Thrown when text input is of an unspecified form
          */
-        public static Task of(String text) throws MaelException {
+        public static Task of(String text) throws MaelException, DateTimeParseException {
             String[] sections = text.split("/");
             switch (text.split(" ")[0]) {
                 case "event" -> {
@@ -103,30 +109,40 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          */
         public static void generate(String text) throws MaelException {
             String[] sections = text.split(" \\| ");
-            switch (sections[0]) {
-                case "T":
-                    if (sections.length == 3) {
-                        tasks.add(new ToDo(sections[2], sections[1].equals("X")));
-                    } else {
-                        throw new MaelException("Corrupted ToDo");
-                    }
-                    break;
-                case "D":
-                    if (sections.length == 4) {
-                        tasks.add(new Deadline(sections[2], sections[3], sections[1].equals("X")));
-                    } else {
-                        throw new MaelException("Corrupted Deadline");
-                    }
-                    break;
-                case "E":
-                    if (sections.length == 5) {
-                        tasks.add(new Event(sections[2], sections[3], sections[4], sections[1].equals("X")));
-                    } else {
-                        throw new MaelException("Corrupted Event");
-                    }
-                    break;
-                default:
-                    throw new MaelException("Unable to load unknown task");
+            try {
+                switch (sections[0]) {
+                    case "T":
+                        if (sections.length == 3) {
+                            tasks.add(new ToDo(sections[2], sections[1].equals("X")));
+                        } else {
+                            throw new MaelException("Corrupted ToDo");
+                        }
+                        break;
+                    case "D":
+                        if (sections.length == 4) {
+                            tasks.add(new Deadline(sections[2], 
+                                    LocalDateTime.parse(sections[3], userFormat), 
+                                    sections[1].equals("X")
+                                    ));
+                        } else {
+                            throw new MaelException("Corrupted Deadline");
+                        }
+                        break;
+                    case "E":
+                        if (sections.length == 5) {
+                            tasks.add(new Event(sections[2], 
+                                    LocalDateTime.parse(sections[3], userFormat), 
+                                    LocalDateTime.parse(sections[4], userFormat), 
+                                    sections[1].equals("X")));
+                        } else {
+                            throw new MaelException("Corrupted Event");
+                        }
+                        break;
+                    default:
+                        throw new MaelException("Unable to load unknown task");
+                }
+            } catch (DateTimeException e) {
+                throw new MaelException("Date corrupted");
             }
         }
         /**
@@ -176,7 +192,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         public static class ToDo extends Task {
 
             /**
-             * Default constructor of a {@code ToDo} task during user input
+             * Default constructor of a {@code ToDo} task from storage
              * 
              * @param title Title of the {@code ToDo}
              * @param completed Completion state of the {@code ToDo}
@@ -216,16 +232,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          * Subclass that encapsulates {@code Deadline} tasks
          */
         public static class Deadline extends Task {
-            private String deadline;
+            private LocalDateTime deadline;
 
             /**
-             * Default constructor of a {@code Deadline} task during user input
+             * Default constructor of a {@code Deadline} task from storage
              * 
              * @param title Title of the {@code Deadline}
              * @param deadline Deadline of the {@code Deadline}
              * @param completed Completion state of the {@code Deadline}
              */
-            public Deadline(String title, String deadline, boolean completed) {
+            public Deadline(String title, LocalDateTime deadline, boolean completed) {
                 super(title);
                 this.deadline = deadline;
                 if (completed) {
@@ -240,7 +256,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             public Deadline(String[] sections) {
                 super(sections[0].substring(9));
-                this.deadline = sections[1].substring(3);
+                this.deadline = LocalDateTime.parse(sections[1].substring(3));
             }
 
             /**
@@ -248,12 +264,12 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             @Override
             public String saveString() {
-                return "D | " + super.getComplete() + " | " + super.title + " | " + this.deadline + "\n";
+                return "D | " + super.getComplete() + " | " + super.title + " | " + this.deadline.format(userFormat) + "\n";
             }
 
             @Override
             public String toString() {
-                return "[D]" + super.toString() + "(Imminent: " + this.deadline + ")";
+                return "[D]" + super.toString() + "(Imminent: " + this.deadline.format(printFormat) + ")";
             }
 
         }
@@ -262,18 +278,18 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          * Subclass that encapsulates {@code Event} tasks
          */
         public static class Event extends Task {
-            private String start;
-            private String end;
+            private LocalDateTime start;
+            private LocalDateTime end;
 
             /**
-             * Default constructor of a {@code Event} task during user input
+             * Default constructor of a {@code Event} task from storage
              * 
              * @param title Title of the {@code Event}
              * @param start Start Date of the {@code Event}
              * @param end End Date the {@code Event}
              * @param completed Completion state of the {@code Event}
              */
-            public Event(String title, String start, String end, boolean completed) {
+            public Event(String title, LocalDateTime start, LocalDateTime end, boolean completed) {
                 super(title);
                 this.start = start;
                 this.end = end;
@@ -287,10 +303,10 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             * 
             * @param sections String array taken from the user input, split by "/"
             */
-            public Event(String[] sections) {
+            public Event(String[] sections) throws DateTimeParseException {
                 super(sections[0].substring(6));
-                this.start = sections[1].substring(5);
-                this.end = sections[2].substring(3);
+                this.start = LocalDateTime.parse(sections[1].substring(5), userFormat);
+                this.end = LocalDateTime.parse(sections[2].substring(3), userFormat);
             }
 
             /**
@@ -298,12 +314,12 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             @Override
             public String saveString() {
-                return "E | " + super.getComplete() + " | " + super.title + " | " + this.start + " | " + this.end + "\n";
+                return "E | " + super.getComplete() + " | " + super.title + " | " + this.start.format(userFormat) + " | " + this.end.format(userFormat) + "\n";
             }
 
             @Override
             public String toString() {
-                return "[E]" + super.toString() + "(alpha: " + this.start + ", delta: " + this.end + ")";
+                return "[E]" + super.toString() + "(alpha: " + this.start.format(printFormat) + ", delta: " + this.end.format(printFormat) + ")";
             }
 
         }
@@ -397,7 +413,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        //launch();
+        launch();
         File taskFolder = new File("./data");
         File taskFile = new File("./data/Mael.txt");
         try {
@@ -526,6 +542,6 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         } catch (IOException e) {
             System.err.println(e);
         }
-        //close();
+        close();
     }
 }
