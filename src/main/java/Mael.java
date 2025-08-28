@@ -39,14 +39,15 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
+    private static DateTimeFormatter userFormat = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
+    private static DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
+
     /** 
      * Class to encapsulate {@code Task} and its subclasses
      */ 
     private abstract static class Task {
         private final String title;
         private boolean completed;
-        private static DateTimeFormatter userFormat = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
-        private static DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
 
         /**
          * Default constructor of a {@code Task}
@@ -63,9 +64,10 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          * @param text Takes user inputs with the form specified by Level-4 requirements
          * @return Subclass of {@code Task} depending on input
          * @throws MaelException Thrown when text input is of an unspecified form
+         * @throws DateTimeParseException If text cannot be parsed in {@code userFormat} DateTime format
          */
         public static Task of(String text) throws MaelException, DateTimeParseException {
-            String[] sections = text.split("/");
+            String[] sections = text.split(" /");
             switch (text.split(" ")[0]) {
                 case "event" -> {
                     if (text.split(" ").length == 1) {
@@ -106,8 +108,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          * 
          * @param text Takes user inputs with the form specified in save file ../data/Mael.txt
          * @throws MaelException Thrown when text input is of an unspecified form
+         * @throws DateTimeParseException If text cannot be parsed in {@code userFormat} DateTime format
          */
-        public static void generate(String text) throws MaelException {
+        public static void generate(String text) throws MaelException, DateTimeException {
             String[] sections = text.split(" \\| ");
             try {
                 switch (sections[0]) {
@@ -171,6 +174,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
         /**
          * Helper function to convert completion state to text
+         * 
+         * @return "X" if completed and " " if not completed
          */
         private String getComplete() {
             return this.completed ? "X" : " ";
@@ -178,8 +183,19 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
         /**
          * Helper function to convert {@code Task} to text for storage
+         * 
+         * @return String to be stored in Mael.txt
          */
         public abstract String saveString();
+
+        /**
+         * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
+         * 
+         * @param dateTime Date to check
+         * @return True if task is an {@code Event} such that {@code dateTime} is during the event time 
+         * or task is a {@code Deadline} and {@code dateTime} is before the deadline
+         */
+        public abstract boolean isBefore(LocalDateTime dateTime);
 
         @Override
         public String toString() {
@@ -215,10 +231,23 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
             /**
             * Helper function to convert {@code ToDo} to text for storage
+            * 
+            * @return String to be stored in Mael.txt
             */
             @Override
             public String saveString() {
                 return "T | " + super.getComplete() + " | " + super.title + "\n";
+            }
+
+            /**
+             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
+             * 
+             * @param dateTime Date to check
+             * @return false
+             */
+            @Override
+            public boolean isBefore(LocalDateTime dateTime) {
+                return false;
             }
 
             @Override
@@ -256,20 +285,33 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             */
             public Deadline(String[] sections) {
                 super(sections[0].substring(9));
-                this.deadline = LocalDateTime.parse(sections[1].substring(3));
+                this.deadline = LocalDateTime.parse(sections[1].substring(3),userFormat);
             }
 
             /**
             * Helper function to convert {@code Deadline} to text for storage
+            *
+            * @return String to be stored in Mael.txt
             */
             @Override
             public String saveString() {
                 return "D | " + super.getComplete() + " | " + super.title + " | " + this.deadline.format(userFormat) + "\n";
             }
 
+            /**
+             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
+             * 
+             * @param dateTime Date to check
+             * @return True if task is an {@code Deadline} such that {@code dateTime} is before the deadline
+             */
+            @Override
+            public boolean isBefore(LocalDateTime dateTime) {
+                return this.deadline.isAfter(dateTime) && !super.completed;
+            }
+
             @Override
             public String toString() {
-                return "[D]" + super.toString() + "(Imminent: " + this.deadline.format(printFormat) + ")";
+                return "[D]" + super.toString() + " (Imminent: " + this.deadline.format(printFormat) + ")";
             }
 
         }
@@ -302,6 +344,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
             * Constructor of a {@code Event} task during user input
             * 
             * @param sections String array taken from the user input, split by "/"
+            * @throws DateTimeParseException If text cannot be parsed in {@code userFormat} DateTime format
             */
             public Event(String[] sections) throws DateTimeParseException {
                 super(sections[0].substring(6));
@@ -311,21 +354,36 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
             /**
             * Helper function to convert {@code Event} to text for storage
+            *
+            * @return String to be stored in Mael.txt
             */
             @Override
             public String saveString() {
                 return "E | " + super.getComplete() + " | " + super.title + " | " + this.start.format(userFormat) + " | " + this.end.format(userFormat) + "\n";
             }
 
+            /**
+             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
+             * 
+             * @param dateTime Date to check
+             * @return True if task is an {@code Event} such that {@code dateTime} is during the event time
+             */
+            @Override
+            public boolean isBefore(LocalDateTime dateTime) {
+                return this.start.isBefore(dateTime) && this.end.isAfter(dateTime) && !super.completed;
+            }
+
             @Override
             public String toString() {
-                return "[E]" + super.toString() + "(alpha: " + this.start.format(printFormat) + ", delta: " + this.end.format(printFormat) + ")";
+                return "[E]" + super.toString() + " (alpha: " + this.start.format(printFormat) + ", delta: " + this.end.format(printFormat) + ")";
             }
 
         }
     }
 
-    // List of Tasks
+    /**
+     * List of Tasks
+     */ 
     private static final ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -333,6 +391,11 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      */ 
     private static class MaelException extends Exception {
 
+        /**
+         * Default constructor of Mael specific exceptions
+         * 
+         * @param message Error message accompanying the exception
+         */
         public MaelException(String message) {
             super(message);
         }
@@ -347,6 +410,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Method to display the initial text when running Mael
+     * 
+     * @throws InterruptedException If sleep is interrupted
      */ 
     private static void launch() throws InterruptedException  {
         String[] text = new String[] {"Injecting Mael", ".", ".", ".\n", null, 
@@ -368,6 +433,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /** 
      * Method to display the final text when ending Mael
+     * 
+     * @throws InterruptedException If sleep is interrupted
      */ 
     private static void close() throws InterruptedException {
         String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n", null, 
@@ -402,6 +469,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      * Method to display the logo line by line with delays
      * 
      * @param text Text to be displayed line by line
+     * @throws InterruptedException If sleep is interrupted
      */
     private static void lineByLine(String text) throws InterruptedException {
         String[] lines = text.split("\n");
@@ -519,6 +587,25 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                         System.err.println(new MaelException("Unknown command for delete"));
                     } 
                 }
+                case "check", "ch" -> {
+                    if (input.split(" ").length == 3) {
+                        try {
+                            LocalDateTime dateby = LocalDateTime.parse(input.split(" ", 2)[1], userFormat);
+                            int count = 0;
+                            System.out.println("\t\t-Missions by " + dateby.format(printFormat) + "-");
+                            for (Task task : tasks) {
+                                if (task.isBefore(dateby)) {
+                                    count++;
+                                    System.out.println("\t" + count + "." + task);
+                                }
+                            }
+                        } catch (DateTimeException e) {
+                            System.err.println(new MaelException("Date invalid"));
+                        }
+                    } else {
+                        System.err.println(new MaelException("Unknown command for check"));
+                    } 
+                }
                 default -> {
                     try {
                         tasks.add(Task.of(input));
@@ -526,6 +613,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                         System.out.println("\t\t-Mael Acknowleged-");
                     } catch (MaelException e) {
                         System.err.println(e);
+                    } catch (DateTimeException e) {
+                        System.err.println(new MaelException("Date invalid"));
                     } 
                 }
             }
