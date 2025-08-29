@@ -3,7 +3,7 @@ package mael;
 /**
  * For exceptions specific to Mael
  */ 
-class MaelException extends Exception {
+public class MaelException extends Exception {
 
     /**
      * Default constructor of Mael specific exceptions

@@ -1,9 +1,9 @@
-package mael;
+package mael.ui;
 
 import java.util.Random;
 import java.util.Scanner;
 
-class UI {
+public class UI {
 
     /**
      * Default constructor for UI
@@ -119,5 +119,14 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 Thread.sleep(50 + RNG.nextInt(0, 100));
             }
         }
+    }
+
+    /**
+     * Returns next user input
+     * 
+     * @return User input
+     */
+    public String nextLine() {
+        return SCANNER.nextLine(); 
     }
 }

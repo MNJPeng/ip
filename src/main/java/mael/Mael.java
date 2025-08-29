@@ -1,33 +1,29 @@
 package mael;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+
+import mael.ui.UI;
+
+import mael.taskList.TaskList;
+
+import mael.storage.Storage;
 
 public class Mael {
 
-    static DateTimeFormatter userFormat = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
-    static DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
+
 
     public void run() {
-        UI ui = new UI();
-        Storage storage = new Storage();
-        Parser parser = new Parser();
-        TaskList taskList = new TaskList();
+        UI ui = new UI(true, true);
+        Storage storage = new Storage("data/Mael");
+        TaskList taskList = new TaskList(storage);
 
         ui.launch();
 
-        String input = SCANNER.nextLine();
-        while (!input.equals("bye")) {  // Early termination when "bye" is input
-            line();
+        boolean isExit = false;
+
+        
+        while (!isExit) {  // Early termination when "bye" is input
+            ui.line();
             // switch (input.split(" ")[0]) {  // Switch only checking for the first word
             //     case "list", "ls" -> {
             //         if (input.split(" ").length == 1) {
@@ -122,19 +118,10 @@ public class Mael {
             //         } 
             //     }
             // }
-            line();
+            ui.line();
             input = SCANNER.nextLine();
         }
 
-        try {
-            FileWriter taskWriter = new FileWriter("./data/Mael.txt");
-            for (Task task : tasks) {
-                taskWriter.write(task.saveString());
-            }
-            taskWriter.close();
-        } catch (IOException e) {
-            System.err.println(e);
-        }
         ui.close();
     }
 

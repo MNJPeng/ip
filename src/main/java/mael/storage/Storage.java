@@ -1,15 +1,16 @@
-package mael;
+package mael.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import mael.taskList.TaskList;
 
-class Storage {
+public class Storage {
 
     private final String filePath;
-    private final UI ui;
 
     /**
      * Default constructor for {@code Storage}
@@ -17,14 +18,15 @@ class Storage {
      * @param filePath Path of file storing tasks
      * @param UI UI used for Mael instance
      */
-    public Storage(String filePath, UI ui) {
+    public Storage(String filePath) {
         this.filePath = filePath;
-        this.ui = ui;
     }
 
 
     /**
-     * Returns 
+     * Returns saved tasks as a list of strings
+     * 
+     * @return List of tasks as strings
      */
     public ArrayList<String> load() {
         String[] pathSegments = filePath.split("/");
@@ -74,5 +76,19 @@ class Storage {
 
         return tasks;
     }
+
+    public void save(TaskList tasks) {
+        try {
+            FileWriter taskWriter = new FileWriter("./" + filePath);
+            for (String task : tasks.getTasks()) {
+                taskWriter.write(task);
+            }
+            taskWriter.close();
+        } catch (IOException e) {
+            System.err.println(e);  //Shouldn't happen
+        }
+    }
+
+
 
 }

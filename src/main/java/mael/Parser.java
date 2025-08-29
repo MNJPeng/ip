@@ -1,5 +1,0 @@
-package mael;
-
-class Parser {
-    
-}
