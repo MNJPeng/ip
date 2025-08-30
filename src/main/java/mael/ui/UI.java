@@ -1,23 +1,26 @@
 package mael.ui;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import mael.parser.Parser;
 
 public class UI {
 
     /**
      * Default constructor for UI
      * 
-     * @param delay Enables delay during display 
-     * @param sequences Enables launching and closing animations
+     * @param has_delay Enables delay during display 
+     * @param has_sequences Enables launching and closing animations
      */
-    public UI(boolean delay, boolean sequences) {
-        this.DELAY = delay;
-        this.SEQUENCES = sequences;
+    public UI(boolean has_delay, boolean has_sequences) {
+        this.HAS_DELAY = has_delay;
+        this.SEQUENCES = has_sequences;
     }
 
-    private boolean DELAY = true; // Set to false for no delays
-    private boolean SEQUENCES = true; // Set to false for no delays
+    private final boolean HAS_DELAY; // Set to false for no delays
+    private final boolean SEQUENCES; // Set to false for no delays
 
     private final Random RNG = new Random(100);
     private final Scanner SCANNER = new Scanner(System.in);
@@ -46,7 +49,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
 
     /**
-     * Method to display the initial text when running Mael
+     * Displays initial text when running Mael
      * 
      * @throws InterruptedException If sleep is interrupted
      */ 
@@ -62,15 +65,22 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 } else {
                     System.out.print(text[i]);
                 }
-                if (DELAY) {
+                if (HAS_DELAY) {
                     Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
                 }
             }
         }
     }
 
+    /**
+     * Displays text when default {@code launch} is interrupted
+     */
+    public void safeLaunch() {
+        System.out.println("\tLaunch Sequence Interrupted..\n\n\tEnabling quick start");
+    }
+
     /** 
-     * Method to display the final text when ending Mael
+     * Displays final text when closing Mael
      * 
      * @throws InterruptedException If sleep is interrupted
      */ 
@@ -86,15 +96,22 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                 } else {
                     System.out.print(text[i]);
                 }
-                if (DELAY) {
+                if (HAS_DELAY) {
                     Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
                 }
             }
         }
     }
 
+    /**
+     * Displays text when default {@code close} is interrupted
+     */
+    public void safeClose() {
+        System.out.println("\tClose Sequence Interrupted..\n\n\tClosing immediately");
+    }
+
     /** 
-     * Method to display the line divider text between inputs and outputs of Mael
+     * Displays line divider text between inputs and outputs of Mael
      */ 
     public void line() {
         String[] symbols = new String[] {"~", "-", "=", "+", "#"};
@@ -106,7 +123,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
 
     /** 
-     * Method to display the logo line by line with delays
+     * Displays text line by line with delays
      * 
      * @param text Text to be displayed line by line
      * @throws InterruptedException If sleep is interrupted
@@ -115,10 +132,32 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         String[] lines = text.split("\n");
         for (String line : lines) {
             System.out.println(line);
-            if (DELAY) {
+            if (HAS_DELAY) {
                 Thread.sleep(50 + RNG.nextInt(0, 100));
             }
         }
+    }
+
+    /**
+     * Prints {@code Exception} input
+     * 
+     * @param e {@code Exception} to be printed
+     */
+    public void printException(Exception e) {
+        System.out.println(e);
+    }
+
+    /**
+     * Prints {@code String} input
+     * 
+     * @param texts {@code String} to be printed
+     */
+    public void printList(List<String> texts) {
+        int i = 1;
+        for (String text : texts) {
+            System.out.println("\t" + i++ + ": " + text);
+        }
+        
     }
 
     /**
@@ -128,5 +167,55 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      */
     public String nextLine() {
         return SCANNER.nextLine(); 
+    }
+
+    /**
+     * Displays text for add command
+     * 
+     * @param taskString toString of task
+     */
+    public void printAddHeader(String taskString) {
+        System.out.println("\t>>> " + taskString + "\n\t\t-Mael Acknowleged-");
+    }
+
+    /**
+     * Displays text for list command
+     */
+    public void printListHeader() {
+        System.out.println("\t\t-Outstanding Missions-");
+    }
+
+    /**
+     * Displays text for mark command
+     * 
+     * @param taskString toString of task
+     */
+    public void printMarkHeader(String taskString) {
+        System.out.println("\t" + taskString +"\n\t\t-Mission Completed-");
+    }
+
+    /**
+     * Displays text for unmark command
+     * 
+     * @param taskString toString of task
+     */
+    public void printUnmarkHeader(String taskString) {
+        System.out.println("\t" + taskString +"\n\t\t-Mission Unsuccessful-");
+    }
+
+    /**
+     * Displays text for delete command
+     * 
+     * @param taskString toString of task
+     */
+    public void printDeleteHeader(String taskString) {
+        System.out.println("\t" + taskString +"\n\t\t-Mission Terminated-");
+    }
+
+    /**
+     * Displays text for check command
+     */
+    public void printCheckHeader(LocalDateTime dateBy) {
+        System.out.println("\t\t-Missions by " + dateBy.format(Parser.PRINT_FORMAT) + "-");
     }
 }

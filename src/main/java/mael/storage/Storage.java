@@ -80,7 +80,7 @@ public class Storage {
     public void save(TaskList tasks) {
         try {
             FileWriter taskWriter = new FileWriter("./" + filePath);
-            for (String task : tasks.getTasks()) {
+            for (String task : tasks.getTasksSave()) {
                 taskWriter.write(task);
             }
             taskWriter.close();
