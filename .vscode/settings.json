@@ -3,5 +3,9 @@
         "src\\main\\java"
     ],
     "java.project.referencedLibraries": [],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true
 }
