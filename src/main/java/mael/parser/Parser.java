@@ -14,10 +14,10 @@ import mael.commands.MarkCommand;
 import mael.commands.UnmarkCommand;
 
 public class Parser {
-    
+
     public static final DateTimeFormatter USER_FORMAT = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
     public static final DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
-    
+
     public static Command parseInput(String text) throws MaelException {
         String[] sections = text.split(" /");
         String[] commandType = sections[0].split(" ", 2);
@@ -27,13 +27,13 @@ public class Parser {
                     throw new MaelException("Event activity unspecified");
                 } else if (sections.length != 3) {
                     throw new MaelException("Event details unclear");
-                } else if (!sections[1].substring(0, 4).equals("from") 
+                } else if (!sections[1].substring(0, 4).equals("from")
                         || !sections[2].substring(0, 2).equals("to")
                         || sections[1].substring(5).length() != 13
                         || sections[2].substring(3).length() != 13) {
                     throw new MaelException("Event boundaries unclear");
                 }
-                return new AddCommand(commandType[1], sections[1].substring(5), sections[2].substring(3), false);
+                return new AddCommand(commandType[1], sections[1].substring(5), sections[2].substring(3), false, true);
             }
             case "deadline" -> {
                 if (commandType.length == 1) {
@@ -44,7 +44,7 @@ public class Parser {
                         || sections[1].substring(3).length() != 13) {
                     throw new MaelException("Deadline unclear");
                 }
-                return new AddCommand(commandType[1], sections[1].substring(3), false);
+                return new AddCommand(commandType[1], sections[1].substring(3), false, true);
             }
             case "todo" -> {
                 if (commandType.length == 1) {
@@ -52,7 +52,7 @@ public class Parser {
                 } else if (sections.length != 1) {
                     throw new MaelException("ToDo details unclear");
                 }
-                return new AddCommand(commandType[1], false);
+                return new AddCommand(commandType[1], false, true);
             }
             case "list", "ls" -> {
                 if (commandType.length == 1) {
@@ -85,7 +85,7 @@ public class Parser {
                     }
                 } else {
                     throw new MaelException("Unknown command for unmark");
-                } 
+                }
             }
             case "delete", "del" -> {
                 if (commandType.length == 2) {
@@ -98,7 +98,7 @@ public class Parser {
                     }
                 } else {
                     throw new MaelException("Unknown command for delete");
-                } 
+                }
             }
             case "check", "ch" -> {
                 if (text.split(" ").length == 3) {
@@ -109,14 +109,14 @@ public class Parser {
                     }
                 } else {
                     throw new MaelException("Unknown command for check");
-                } 
+                }
             }
-             case "bye" -> {
+            case "bye" -> {
                 if (text.split(" ").length == 1) {
                     return new ExitCommand();
                 } else {
                     throw new MaelException("Unknown command for bye");
-                } 
+                }
             }
             default -> {
                 throw new MaelException("Unknown Mission");
@@ -126,48 +126,48 @@ public class Parser {
 
     /**
      * Returns LocalDateTime from a string of the date and time
-     * 
+     *
      * @param dateTime String in ddMMyyyy HHmm format
      * @return LocalDateTime format of string
      * @throws DateTimeException If string cannot be parsed in the format
      */
     public static LocalDateTime parseDate(String dateTime) throws DateTimeException {
-        return LocalDateTime.parse(dateTime,USER_FORMAT);
+        return LocalDateTime.parse(dateTime, USER_FORMAT);
     }
 
     public static Command parseStorage(String text) throws MaelException {
         String[] sections = text.split(" \\| ");
-            try {
-                switch (sections[0]) {
-                    case "T":
-                        if (sections.length == 3) {
-                            return new AddCommand(sections[2], 
-                                sections[1].equals("X"));
-                        } else {
-                            throw new MaelException("Corrupted ToDo");
-                        }
-                    case "D":
-                        if (sections.length == 4) {
-                            return new AddCommand(sections[2], 
-                                sections[3], 
-                                sections[1].equals("X"));
-                        } else {
-                            throw new MaelException("Corrupted Deadline");
-                        }
-                    case "E":
-                        if (sections.length == 5) {
-                            return new AddCommand(sections[2], 
-                                sections[3], 
-                                sections[4], 
-                                sections[1].equals("X"));
-                        } else {
-                            throw new MaelException("Corrupted Event");
-                        }
-                    default:
-                        throw new MaelException("Unable to load unknown task");
-                }
-            } catch (DateTimeException e) {
-                throw new MaelException("Date corrupted");
+        try {
+            switch (sections[0]) {
+                case "T":
+                    if (sections.length == 3) {
+                        return new AddCommand(sections[2],
+                                sections[1].equals("X"), false);
+                    } else {
+                        throw new MaelException("Corrupted ToDo");
+                    }
+                case "D":
+                    if (sections.length == 4) {
+                        return new AddCommand(sections[2],
+                                sections[3],
+                                sections[1].equals("X"), false);
+                    } else {
+                        throw new MaelException("Corrupted Deadline");
+                    }
+                case "E":
+                    if (sections.length == 5) {
+                        return new AddCommand(sections[2],
+                                sections[3],
+                                sections[4],
+                                sections[1].equals("X"), false);
+                    } else {
+                        throw new MaelException("Corrupted Event");
+                    }
+                default:
+                    throw new MaelException("Unable to load unknown task");
             }
+        } catch (DateTimeException e) {
+            throw new MaelException("Date corrupted");
+        }
     }
 }

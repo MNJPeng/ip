@@ -7,5 +7,8 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true
+    "files.trimFinalNewlines": true,
+    "gradle.javaDebug": [
+        "mael:run"
+    ]
 }
