@@ -4,7 +4,7 @@
     ],
     "java.project.referencedLibraries": [],
     "java.configuration.updateBuildConfiguration": "interactive",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.formatOnPaste": true,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,

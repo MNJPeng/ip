@@ -214,6 +214,8 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Displays text for check command
+     *
+     * @param dateBy Date to check
      */
     public void printCheckHeader(LocalDateTime dateBy) {
         System.out.println("\t\t-Missions by " + dateBy.format(Parser.PRINT_FORMAT) + "-");
