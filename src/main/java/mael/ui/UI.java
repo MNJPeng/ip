@@ -60,7 +60,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
             for (int i = 0; i < texts.length; i++) {
                 if (i == 4) {
-                    lineByLine(LOGO);
+                    printLineByLine(LOGO);
                 } else {
                     System.out.print(texts[i]);
                 }
@@ -91,7 +91,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
             for (int i = 0; i < texts.length; i++) {
                 if (i == 4) {
-                    lineByLine(LOGO);
+                    printLineByLine(LOGO);
                 } else {
                     System.out.print(texts[i]);
                 }
@@ -112,7 +112,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     /**
      * Displays line divider text between inputs and outputs of Mael
      */
-    public void line() {
+    public void printDividerLine() {
         String[] symbols = new String[]{"~", "-", "=", "+", "#"};
         String line = "";
         for (int i = 0; i < 50; i++) {
@@ -127,7 +127,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      * @param text Text to be displayed line by line
      * @throws InterruptedException If sleep is interrupted
      */
-    private void lineByLine(String text) throws InterruptedException {
+    private void printLineByLine(String text) throws InterruptedException {
         String[] lines = text.split("\n");
         for (String line : lines) {
             System.out.println(line);

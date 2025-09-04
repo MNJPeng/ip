@@ -9,6 +9,6 @@ public class ListCommand extends Command {
     @Override
     public void execute(TaskList tasklist, UI ui, Storage storage) {
         ui.printListHeader();
-        ui.printList(tasklist.getTasksPrint());
+        ui.printList(tasklist.getTasksAsPrintStrings());
     }
 }

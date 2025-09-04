@@ -71,7 +71,7 @@ public class Storage {
 
         try {
             FileWriter taskWriter = new FileWriter("./" + filePath);
-            for (String task : tasks.getTasksSave()) {
+            for (String task : tasks.getTasksAsSaveStrings()) {
                 taskWriter.write(task);
             }
             taskWriter.close();

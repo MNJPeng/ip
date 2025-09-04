@@ -22,11 +22,11 @@ public class Mael {
     /**
      * Runs instance of Mael
      * 
-     * @param has_delay Enables delay during display 
-     * @param has_sequences Enables launching and closing animations
+     * @param hasDelay Enables delay during display 
+     * @param hasSequences Enables launching and closing animations
      */
-    public void run(boolean has_delay, boolean has_sequences) {
-        UI ui = new UI(has_delay, has_sequences);
+    public void run(boolean hasDelay, boolean hasSequences) {
+        UI ui = new UI(hasDelay, hasSequences);
         Storage storage = new Storage(DATA_PATH_NAME);
         TaskList tasks = new TaskList(storage, ui);
 
@@ -41,14 +41,14 @@ public class Mael {
         while (!isExit) { 
         try {
             String input = ui.nextLine();
-            ui.line();
+            ui.printDividerLine();
             Command command = Parser.parseInput(input);
             command.execute(tasks, ui, storage);
             isExit = command.isExit();
         } catch (MaelException e) {
             ui.printException(e);
         } finally {
-            ui.line();
+            ui.printDividerLine();
         }
         }
 

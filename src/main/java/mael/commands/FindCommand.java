@@ -22,7 +22,7 @@ public class FindCommand extends Command {
     @Override
     public void execute(TaskList taskList, UI ui, Storage storage) {
         ui.printFindHeader(keyword);
-        ui.printList(taskList.getTaskTitles()
+        ui.printList(taskList.getTasksAsPrintStrings()
             .stream()
             .filter(task -> task.contains(keyword))
             .collect(Collectors.toList())

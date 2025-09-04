@@ -48,7 +48,7 @@ public class TaskList {
      *
      * @return List of Strings to save in storage
      */
-    private List<String> getTasks(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
+    private List<String> getTasksAsStrings(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
         return tasks.stream().map(function).collect(Collectors.toList());
     }
 
@@ -57,8 +57,8 @@ public class TaskList {
      *
      * @return List of Strings to print
      */
-    public List<String> getTasksPrint() {
-        return getTasks(tasks, Task::toString);
+    public List<String> getTasksAsPrintStrings() {
+        return getTasksAsStrings(tasks, Task::toString);
     }
 
     /**
@@ -66,17 +66,8 @@ public class TaskList {
      *
      * @return List of Strings to save in storage
      */
-    public List<String> getTasksSave() {
-        return getTasks(tasks, Task::saveString);
-    }
-
-    /**
-     * Returns a list of Strings of {@code Task} titles
-     *
-     * @return List of Task titles
-     */
-    public List<String> getTaskTitles() {
-        return getTasks(tasks, Task::getTitle);
+    public List<String> getTasksAsSaveStrings() {
+        return getTasksAsStrings(tasks, Task::saveString);
     }
 
     /**
@@ -124,7 +115,7 @@ public class TaskList {
      * Deadlines where {@code dateBy} is after the deadline
      */
     public List<String> checkDate(LocalDateTime dateBy) {
-        return getTasks(tasks.stream().filter(task -> task.checkDate(dateBy)).collect(Collectors.toList()), Task::toString);
+        return getTasksAsStrings(tasks.stream().filter(task -> task.checkDate(dateBy)).collect(Collectors.toList()), Task::toString);
     }
 
     /**
@@ -194,15 +185,6 @@ public class TaskList {
          */
         private String getComplete() {
             return this.isCompleted ? "X" : " ";
-        }
-
-        /**
-         * Returns {@code Task} Title
-         *
-         * @return {@code Task} Title
-         */
-        public String getTitle() {
-            return this.title;
         }
 
         /**
