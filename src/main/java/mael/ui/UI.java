@@ -219,4 +219,13 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     public void printCheckHeader(LocalDateTime dateBy) {
         System.out.println("\t\t-Missions by " + dateBy.format(Parser.PRINT_FORMAT) + "-");
     }
+
+    /**
+     * Displays text for find command
+     *
+     * @param keyword Keyword being searched for
+     */
+    public void printFindHeader(String keyword) {
+        System.out.println("\t\t-Missions matching: \"" + keyword + "\"-");
+    }
 }

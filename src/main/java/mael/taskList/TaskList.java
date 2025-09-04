@@ -17,7 +17,7 @@ public class TaskList {
 
     /**
      * Default Constructor of TaskList
-     * 
+     *
      * @param storage Storage to load and save {@code Task}
      */
     public TaskList(Storage storage, UI ui) {
@@ -33,7 +33,7 @@ public class TaskList {
 
     /**
      * Adds {@code Task} with title
-     * 
+     *
      * @param title Title of {@code Task}
      * @return {@code Task.toString()}
      */
@@ -45,7 +45,7 @@ public class TaskList {
 
     /**
      * Returns a list of Strings which represent {@code Task} to save
-     * 
+     *
      * @return List of Strings to save in storage
      */
     private List<String> getTasks(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
@@ -54,7 +54,7 @@ public class TaskList {
 
     /**
      * Returns a list of Strings which represent {@code Task} to print
-     * 
+     *
      * @return List of Strings to print
      */
     public List<String> getTasksPrint() {
@@ -63,7 +63,7 @@ public class TaskList {
 
     /**
      * Returns a list of Strings which represent {@code Task} to save
-     * 
+     *
      * @return List of Strings to save in storage
      */
     public List<String> getTasksSave() {
@@ -71,8 +71,17 @@ public class TaskList {
     }
 
     /**
+     * Returns a list of Strings of {@code Task} titles
+     *
+     * @return List of Task titles
+     */
+    public List<String> getTaskTitles() {
+        return getTasks(tasks, Task::getTitle);
+    }
+
+    /**
      * Marks task {@code num} as complete
-     * 
+     *
      * @param num Task number
      * @return toString of Task completed
      * @throws MaelException If task is already complete
@@ -84,7 +93,7 @@ public class TaskList {
 
     /**
      * Marks task {@code num} as incomplete
-     * 
+     *
      * @param num Task number
      * @return toString of Task marked incomplete
      * @throws MaelException If task is already incomplete
@@ -96,36 +105,39 @@ public class TaskList {
 
     /**
      * Deletes task {@code num}
-     * 
+     *
      * @param num Task number
      * @return toString of Task deleted
      * @throws MaelException If task is already incomplete
      */
-    public String delete(int num){
+    public String delete(int num) {
         return tasks.remove(num - 1).toString();
-        
+
     }
 
     /**
      * Checks date against tasks
-     * 
-     * @param dateBy Date to check whether in event durations, or after deadlines
-     * @return List of Events where {@code dateBy} is in the duration, and Deadlines where {@code dateBy} is after the deadline
+     *
+     * @param dateBy Date to check whether in event durations, or after
+     * deadlines
+     * @return List of Events where {@code dateBy} is in the duration, and
+     * Deadlines where {@code dateBy} is after the deadline
      */
-    public List<String> checkDate(LocalDateTime dateBy){
+    public List<String> checkDate(LocalDateTime dateBy) {
         return getTasks(tasks.stream().filter(task -> task.checkDate(dateBy)).collect(Collectors.toList()), Task::toString);
     }
 
-    /** 
+    /**
      * Class to encapsulate {@code Task} and its subclasses
-     */ 
+     */
     private abstract static class Task {
+
         private final String title;
         private boolean isCompleted;
 
         /**
          * Default constructor of a {@code Task}
-         * 
+         *
          * @param title Title of the {@code Task}
          */
         private Task(String title) {
@@ -134,7 +146,7 @@ public class TaskList {
 
         /**
          * Factory method for {@code Task}
-         * 
+         *
          * @param title Title of task
          * @param date1 Deadline or Start Date
          * @param date2 End Date
@@ -150,10 +162,10 @@ public class TaskList {
                 return new ToDo(title, isCompleted);
             }
         }
-        
+
         /**
          * Marks {@code Task} as complete
-         * 
+         *
          * @throws MaelException if {@code Task} is already complete
          */
         public void markComplete() throws MaelException {
@@ -165,7 +177,7 @@ public class TaskList {
 
         /**
          * Marks {@code Task} as incomplete
-         * 
+         *
          * @throws MaelException if {@code Task} is already incomplete
          */
         public void markIncomplete() throws MaelException {
@@ -177,7 +189,7 @@ public class TaskList {
 
         /**
          * Helper function to convert completion state to text
-         * 
+         *
          * @return "X" if isCompleted and " " if not isCompleted
          */
         private String getComplete() {
@@ -185,18 +197,29 @@ public class TaskList {
         }
 
         /**
+         * Returns {@code Task} Title
+         *
+         * @return {@code Task} Title
+         */
+        public String getTitle() {
+            return this.title;
+        }
+
+        /**
          * Helper function to convert {@code Task} to text for storage
-         * 
+         *
          * @return String to be stored in Mael.txt
          */
         public abstract String saveString();
 
         /**
-         * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
-         * 
+         * Returns true if task is incomplete and {@code dateTime} is before the
+         * deadline or during the event time
+         *
          * @param dateTime Date to check
-         * @return True if task is an {@code Event} such that {@code dateTime} is during the event time 
-         * or task is a {@code Deadline} and {@code dateTime} is before the deadline
+         * @return True if task is an {@code Event} such that {@code dateTime}
+         * is during the event time or task is a {@code Deadline} and
+         * {@code dateTime} is before the deadline
          */
         public abstract boolean checkDate(LocalDateTime dateTime);
 
@@ -212,7 +235,7 @@ public class TaskList {
 
             /**
              * Default constructor of a {@code ToDo} task from storage
-             * 
+             *
              * @param title Title of the {@code ToDo}
              * @param isCompleted Completion state of the {@code ToDo}
              */
@@ -224,18 +247,19 @@ public class TaskList {
             }
 
             /**
-            * Helper function to convert {@code ToDo} to text for storage
-            * 
-            * @return String to be stored in Mael.txt
-            */
+             * Helper function to convert {@code ToDo} to text for storage
+             *
+             * @return String to be stored in Mael.txt
+             */
             @Override
             public String saveString() {
                 return "T | " + super.getComplete() + " | " + super.title + "\n";
             }
 
             /**
-             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
-             * 
+             * Returns true if task is incomplete and {@code dateTime} is before
+             * the deadline or during the event time
+             *
              * @param dateTime Date to check
              * @return false
              */
@@ -250,16 +274,17 @@ public class TaskList {
             }
 
         }
-        
+
         /**
          * Subclass that encapsulates {@code Deadline} tasks
          */
         public static class Deadline extends Task {
+
             private final LocalDateTime DEADLINE;
 
             /**
              * Default constructor of a {@code Deadline} task from storage
-             * 
+             *
              * @param title Title of the {@code Deadline}
              * @param deadline Deadline of the {@code Deadline}
              * @param isCompleted Completion state of the {@code Deadline}
@@ -273,20 +298,22 @@ public class TaskList {
             }
 
             /**
-            * Helper function to convert {@code Deadline} to text for storage
-            *
-            * @return String to be stored in Mael.txt
-            */
+             * Helper function to convert {@code Deadline} to text for storage
+             *
+             * @return String to be stored in Mael.txt
+             */
             @Override
             public String saveString() {
                 return "D | " + super.getComplete() + " | " + super.title + " | " + this.DEADLINE.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
-             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
-             * 
+             * Returns true if task is incomplete and {@code dateTime} is before
+             * the deadline or during the event time
+             *
              * @param dateTime Date to check
-             * @return True if task is an {@code Deadline} such that {@code dateTime} is before the deadline
+             * @return True if task is an {@code Deadline} such that
+             * {@code dateTime} is before the deadline
              */
             @Override
             public boolean checkDate(LocalDateTime dateTime) {
@@ -304,12 +331,13 @@ public class TaskList {
          * Subclass that encapsulates {@code Event} tasks
          */
         public static class Event extends Task {
+
             private final LocalDateTime START;
             private final LocalDateTime END;
 
             /**
              * Default constructor of a {@code Event} task from storage
-             * 
+             *
              * @param title Title of the {@code Event}
              * @param start Start Date of the {@code Event}
              * @param end End Date the {@code Event}
@@ -325,20 +353,22 @@ public class TaskList {
             }
 
             /**
-            * Helper function to convert {@code Event} to text for storage
-            *
-            * @return String to be stored in Mael.txt
-            */
+             * Helper function to convert {@code Event} to text for storage
+             *
+             * @return String to be stored in Mael.txt
+             */
             @Override
             public String saveString() {
                 return "E | " + super.getComplete() + " | " + super.title + " | " + this.START.format(Parser.USER_FORMAT) + " | " + this.END.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
-             * Returns true if task is incomplete and {@code dateTime} is before the deadline or during the event time
-             * 
+             * Returns true if task is incomplete and {@code dateTime} is before
+             * the deadline or during the event time
+             *
              * @param dateTime Date to check
-             * @return True if task is an {@code Event} such that {@code dateTime} is during the event time
+             * @return True if task is an {@code Event} such that
+             * {@code dateTime} is during the event time
              */
             @Override
             public boolean checkDate(LocalDateTime dateTime) {

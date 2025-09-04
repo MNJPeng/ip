@@ -10,6 +10,7 @@ import mael.commands.CheckCommand;
 import mael.commands.Command;
 import mael.commands.DeleteCommand;
 import mael.commands.ExitCommand;
+import mael.commands.FindCommand;
 import mael.commands.ListCommand;
 import mael.commands.MarkCommand;
 import mael.commands.UnmarkCommand;
@@ -118,6 +119,9 @@ public class Parser {
                 } else {
                     throw new MaelException("Unknown command for check");
                 }
+            }
+            case "find", "f" -> {
+                return new FindCommand(commandSections[1]);
             }
             case "bye" -> {
                 if (text.split(" ").length == 1) {
