@@ -10,8 +10,8 @@ public class UI {
 
     /**
      * Default constructor for UI
-     * 
-     * @param has_delay Enables delay during display 
+     *
+     * @param has_delay Enables delay during display
      * @param has_sequences Enables launching and closing animations
      */
     public UI(boolean has_delay, boolean has_sequences) {
@@ -24,8 +24,8 @@ public class UI {
 
     private final Random RNG = new Random(100);
     private final Scanner SCANNER = new Scanner(System.in);
-    private final String LOGO = 
-        """
+    private final String LOGO
+            = """
        .oXXXXXXXXXXXXXXXXXXo.
      .oXXXXX/XXXXXXXX\\XXXXXXXo.
     /XXXXXX-\\XXXXXXXX/-XXXXXXXx\\
@@ -47,17 +47,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
           `             '
         """;
 
-
     /**
      * Displays initial text when running Mael
-     * 
+     *
      * @throws InterruptedException If sleep is interrupted
-     */ 
-    public void launch() throws InterruptedException  {
+     */
+    public void launch() throws InterruptedException {
         if (SEQUENCES) {
-            String[] text = new String[] {"Injecting Mael", ".", ".", ".\n", null, 
-                    "Mael injection complete\n", "Awaiting instructions", ".", ".", ".\n\n"};
-            int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
+            String[] text = new String[]{"Injecting Mael", ".", ".", ".\n", null,
+                "Mael injection complete\n", "Awaiting instructions", ".", ".", ".\n\n"};
+            int[] delays = new int[]{400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
 
             for (int i = 0; i < text.length; i++) {
                 if (i == 4) {
@@ -66,7 +65,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                     System.out.print(text[i]);
                 }
                 if (HAS_DELAY) {
-                    Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
+                    Thread.sleep(delays[i] + RNG.nextInt(0, 400) - 200);
                 }
             }
         }
@@ -79,16 +78,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         System.out.println("\tLaunch Sequence Interrupted..\n\n\tEnabling quick start");
     }
 
-    /** 
+    /**
      * Displays final text when closing Mael
-     * 
+     *
      * @throws InterruptedException If sleep is interrupted
-     */ 
+     */
     public void close() throws InterruptedException {
         if (SEQUENCES) {
-            String[] text = new String[] {"\nWiping Mael", ".", ".", ".\n", null, 
-                    "Mael Erased\n", "Like you were never here...\n"};
-            int[] delays = new int[] {400, 400, 400, 800, 1200, 600, 1200};
+            String[] text = new String[]{"\nWiping Mael", ".", ".", ".\n", null,
+                "Mael Erased\n", "Like you were never here...\n"};
+            int[] delays = new int[]{400, 400, 400, 800, 1200, 600, 1200};
 
             for (int i = 0; i < text.length; i++) {
                 if (i == 4) {
@@ -97,7 +96,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
                     System.out.print(text[i]);
                 }
                 if (HAS_DELAY) {
-                    Thread.sleep(delays[i] + RNG.nextInt(0,400) - 200);
+                    Thread.sleep(delays[i] + RNG.nextInt(0, 400) - 200);
                 }
             }
         }
@@ -110,11 +109,11 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         System.out.println("\tClose Sequence Interrupted..\n\n\tClosing immediately");
     }
 
-    /** 
+    /**
      * Displays line divider text between inputs and outputs of Mael
-     */ 
+     */
     public void line() {
-        String[] symbols = new String[] {"~", "-", "=", "+", "#"};
+        String[] symbols = new String[]{"~", "-", "=", "+", "#"};
         String line = "";
         for (int i = 0; i < 50; i++) {
             line += symbols[RNG.nextInt(0, symbols.length - 1)];
@@ -122,9 +121,9 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         System.out.println("\n" + line);
     }
 
-    /** 
+    /**
      * Displays text line by line with delays
-     * 
+     *
      * @param text Text to be displayed line by line
      * @throws InterruptedException If sleep is interrupted
      */
@@ -140,7 +139,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Prints {@code Exception} input
-     * 
+     *
      * @param e {@code Exception} to be printed
      */
     public void printException(Exception e) {
@@ -149,7 +148,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Prints {@code String} input
-     * 
+     *
      * @param texts {@code String} to be printed
      */
     public void printList(List<String> texts) {
@@ -157,21 +156,21 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         for (String text : texts) {
             System.out.println("\t" + i++ + ": " + text);
         }
-        
+
     }
 
     /**
      * Returns next user input
-     * 
+     *
      * @return User input
      */
     public String nextLine() {
-        return SCANNER.nextLine(); 
+        return SCANNER.nextLine();
     }
 
     /**
      * Displays text for add command
-     * 
+     *
      * @param taskString toString of task
      */
     public void printAddHeader(String taskString) {
@@ -187,29 +186,29 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Displays text for mark command
-     * 
+     *
      * @param taskString toString of task
      */
     public void printMarkHeader(String taskString) {
-        System.out.println("\t" + taskString +"\n\t\t-Mission Completed-");
+        System.out.println("\t" + taskString + "\n\t\t-Mission Completed-");
     }
 
     /**
      * Displays text for unmark command
-     * 
+     *
      * @param taskString toString of task
      */
     public void printUnmarkHeader(String taskString) {
-        System.out.println("\t" + taskString +"\n\t\t-Mission Unsuccessful-");
+        System.out.println("\t" + taskString + "\n\t\t-Mission Unsuccessful-");
     }
 
     /**
      * Displays text for delete command
-     * 
+     *
      * @param taskString toString of task
      */
     public void printDeleteHeader(String taskString) {
-        System.out.println("\t" + taskString +"\n\t\t-Mission Terminated-");
+        System.out.println("\t" + taskString + "\n\t\t-Mission Terminated-");
     }
 
     /**
@@ -217,5 +216,14 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      */
     public void printCheckHeader(LocalDateTime dateBy) {
         System.out.println("\t\t-Missions by " + dateBy.format(Parser.PRINT_FORMAT) + "-");
+    }
+
+    /**
+     * Displays text for find command
+     *
+     * @param keyword Keyword being searched for
+     */
+    public void printFindHeader(String keyword) {
+        System.out.println("\t\t-Missions matching: \"" + keyword + "\"-");
     }
 }
