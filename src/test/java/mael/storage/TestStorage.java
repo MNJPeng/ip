@@ -1,4 +1,4 @@
-package mael;
+package mael.storage;
 
 import java.io.File;
 import java.io.FileWriter;
