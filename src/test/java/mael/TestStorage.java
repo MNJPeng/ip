@@ -1,4 +1,4 @@
-package mael.storage;
+package mael;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
+import mael.storage.Storage;
+
 public class TestStorage {
-    
+
     @Test
     public void load_stubDataFile_loadedCorrectly() {
         Storage storage = new Storage("data/testData.txt");
@@ -22,24 +24,19 @@ public class TestStorage {
             writer.write(task1 + "\n" + task2 + "\n" + task3);
             writer.close();
         } catch (IOException e) {
-            assert(false);
+            assert (false);
         }
         ArrayList<String> tasks = storage.load();
         assertTrue(tasks.get(0).equals(task1));
         assertTrue(tasks.get(1).equals(task2));
         assertTrue(tasks.get(2).equals(task3));
     }
-    
+
     @Test
     public void load_missingDataFileAndFolders_loadedEmpty() {
         File folder = new File("./data/just");
         folder.delete();
         Storage storage = new Storage("data/just/for/fun.txt");
         assertTrue(storage.load().isEmpty());
-    }
-
-    @Test
-    public void save_() {
-
     }
 }

@@ -10,11 +10,11 @@ import mael.ui.UI;
 
 public class AddCommand extends Command {
 
-    String title;
-    LocalDateTime date1;
-    LocalDateTime date2;
-    boolean isCompleted;
-    boolean isDisplayed;
+    private String title;
+    private LocalDateTime date1;
+    private LocalDateTime date2;
+    private boolean isCompleted;
+    private boolean isDisplayed;
 
     /**
      * Constructor for AddCommand for ToDo Tasks
@@ -35,9 +35,13 @@ public class AddCommand extends Command {
      * @param deadline Deadline of deadline task
      * @param isCompleted Completion state of Task
      */
-    public AddCommand(String title, String deadline, boolean isCompleted, boolean isDisplayed) {
+    public AddCommand(String title, String deadline, boolean isCompleted, boolean isDisplayed) throws MaelException {
         this.title = title;
-        this.date1 = Parser.parseDate(deadline);
+        try {
+            this.date1 = Parser.parseDate(deadline);
+        } catch (DateTimeException e) {
+            throw new MaelException("Date not given in specified format");
+        }
         this.isCompleted = isCompleted;
         this.isDisplayed = isDisplayed;
     }
