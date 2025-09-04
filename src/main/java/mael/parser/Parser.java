@@ -19,6 +19,13 @@ public class Parser {
     public static final DateTimeFormatter USER_FORMAT = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
     public static final DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy HHmm");
 
+    /**
+     * Parses inputs from the user in the format required
+     *
+     * @param text User input
+     * @return {@code Command} based on user request
+     * @throws MaelException If user input is not in required format
+     */
     public static Command parseInput(String text) throws MaelException {
         String[] sections = text.split(" /");
         String[] commandType = sections[0].split(" ", 2);
@@ -136,6 +143,13 @@ public class Parser {
         return LocalDateTime.parse(dateTime, USER_FORMAT);
     }
 
+    /**
+     * Parses tasks stored in storage
+     *
+     * @param text Stored task
+     * @return {@code AddCommand} based on stored task
+     * @throws MaelException If task in storage was corrupted
+     */
     public static Command parseStorage(String text) throws MaelException {
         String[] sections = text.split(" \\| ");
         try {
