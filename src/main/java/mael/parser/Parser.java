@@ -28,10 +28,10 @@ public class Parser {
      */
     public static Command parseInput(String text) throws MaelException {
         String[] sections = text.split(" /");
-        String[] commandType = sections[0].split(" ", 2);
-        switch (commandType[0]) {
+        String[] commandSections = sections[0].split(" ", 2);
+        switch (commandSections[0]) {
             case "event" -> {
-                if (commandType.length == 1) {
+                if (commandSections.length == 1) {
                     throw new MaelException("Event activity unspecified");
                 } else if (sections.length != 3) {
                     throw new MaelException("Event details unclear");
@@ -41,10 +41,10 @@ public class Parser {
                         || sections[2].substring(3).length() != 13) {
                     throw new MaelException("Event boundaries unclear");
                 }
-                return new AddCommand(commandType[1], sections[1].substring(5), sections[2].substring(3), false, true);
+                return new AddCommand(commandSections[1], sections[1].substring(5), sections[2].substring(3), false, true);
             }
             case "deadline" -> {
-                if (commandType.length == 1) {
+                if (commandSections.length == 1) {
                     throw new MaelException("Deadline activity unspecified");
                 } else if (sections.length != 2) {
                     throw new MaelException("Deadline details unclear");
@@ -52,27 +52,27 @@ public class Parser {
                         || sections[1].substring(3).length() != 13) {
                     throw new MaelException("Deadline unclear");
                 }
-                return new AddCommand(commandType[1], sections[1].substring(3), false, true);
+                return new AddCommand(commandSections[1], sections[1].substring(3), false, true);
             }
             case "todo" -> {
-                if (commandType.length == 1) {
+                if (commandSections.length == 1) {
                     throw new MaelException("ToDo activity unspecified");
                 } else if (sections.length != 1) {
                     throw new MaelException("ToDo details unclear");
                 }
-                return new AddCommand(commandType[1], false, true);
+                return new AddCommand(commandSections[1], false, true);
             }
             case "list", "ls" -> {
-                if (commandType.length == 1) {
+                if (commandSections.length == 1) {
                     return new ListCommand();
                 } else {
                     throw new MaelException("Unknown command for list");
                 }
             }
             case "mark", "m" -> {
-                if (commandType.length == 2) {
+                if (commandSections.length == 2) {
                     try {
-                        return new MarkCommand(Integer.parseInt(commandType[1]));
+                        return new MarkCommand(Integer.parseInt(commandSections[1]));
                     } catch (NumberFormatException e) {
                         throw new MaelException("Mark details unclear");
                     } catch (IndexOutOfBoundsException e) {
@@ -83,9 +83,9 @@ public class Parser {
                 }
             }
             case "unmark", "um" -> {
-                if (commandType.length == 2) {
+                if (commandSections.length == 2) {
                     try {
-                        return new UnmarkCommand(Integer.parseInt(commandType[1]));
+                        return new UnmarkCommand(Integer.parseInt(commandSections[1]));
                     } catch (NumberFormatException e) {
                         throw new MaelException("Unmark details unclear");
                     } catch (IndexOutOfBoundsException e) {
@@ -96,9 +96,9 @@ public class Parser {
                 }
             }
             case "delete", "del" -> {
-                if (commandType.length == 2) {
+                if (commandSections.length == 2) {
                     try {
-                        return new DeleteCommand(Integer.parseInt(commandType[1]));
+                        return new DeleteCommand(Integer.parseInt(commandSections[1]));
                     } catch (NumberFormatException e) {
                         throw new MaelException("Termination details unclear");
                     } catch (IndexOutOfBoundsException e) {
@@ -111,7 +111,7 @@ public class Parser {
             case "check", "ch" -> {
                 if (text.split(" ").length == 3) {
                     try {
-                        return new CheckCommand(LocalDateTime.parse(commandType[1], USER_FORMAT));
+                        return new CheckCommand(LocalDateTime.parse(commandSections[1], USER_FORMAT));
                     } catch (DateTimeException e) {
                         throw new MaelException("Date invalid");
                     }
