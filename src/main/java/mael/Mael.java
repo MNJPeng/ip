@@ -27,8 +27,8 @@ public class Mael extends Application{
     private Button sendButton;
     private Scene scene;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Mael.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/Mael.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/mael.png"));
+    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/mael.png"));
 
     /**
      * Alternative constructor of Mael for {@code Launcher}
