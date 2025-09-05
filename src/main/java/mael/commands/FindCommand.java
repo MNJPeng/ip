@@ -28,4 +28,16 @@ public class FindCommand extends Command {
             .collect(Collectors.toList())
         );
     }
+
+    @Override
+    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+        String response = "";
+        response += ui.getFindHeaderString(keyword);
+        response += ui.getListString(taskList.getTasksAsPrintStrings()
+            .stream()
+            .filter(task -> task.contains(keyword))
+            .collect(Collectors.toList())
+        );
+        return response;
+    }
 }

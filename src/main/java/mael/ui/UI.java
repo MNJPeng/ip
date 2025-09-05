@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
 import mael.parser.Parser;
 
 public class UI {
@@ -227,5 +228,120 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      */
     public void printFindHeader(String keyword) {
         System.out.println("\t\t-Missions matching: \"" + keyword + "\"-");
+    }
+
+    /**
+     * Returns divider line as a string
+     * 
+     * @return Divider line as a string
+     */
+    public String getDividerLineString() {
+        String[] symbols = new String[]{"~", "-", "=", "+", "#"};
+        String line = "";
+        for (int i = 0; i < 35; i++) {
+            line += symbols[RNG.nextInt(0, symbols.length - 1)];
+        }
+       return line + "\n";
+    }
+
+    /**
+     * Returns {@code Exception} input as a string
+     *
+     * @param e {@code Exception} to be read
+     */
+    public String getExceptionString(Exception e) {
+        return e.toString() + "\n";
+    }
+
+    /**
+     * Returns {@code String} input of a list
+     *
+     * @param texts {@code String} to be read
+     * @return List as strings in a numbered list
+     */
+    public String getListString(List<String> texts) {
+        int i = 1;
+        String listString = "";
+        for (String text : texts) {
+            listString += "\t" + i++ + ": " + text + "\n";
+        }
+        return listString;
+    }
+
+    /**
+     * Returns text for add command
+     *
+     * @param taskString toString of task
+     * @return Text for add command
+     */
+    public String getAddHeaderString(String taskString) {
+        return "\t>>> " + taskString + "\n\t\t-Mael Acknowleged-\n";
+    }
+
+    /**
+     * Returns text for list command
+     * 
+     * @return Text for list command
+     */
+    public String getListHeaderString() {
+        return "\t\t-Outstanding Missions-\n";
+    }
+
+    /**
+     * Returns text for mark command
+     *
+     * @param taskString toString of task
+     * @return Text for mark command
+     */
+    public String getMarkHeaderString(String taskString) {
+        return "\t" + taskString + "\n\t\t-Mission Completed-\n";
+    }
+
+    /**
+     * Returns text for unmark command
+     *
+     * @param taskString toString of task
+     * @return Text for unmark command
+     */
+    public String getUnmarkHeaderString(String taskString) {
+        return "\t" + taskString + "\n\t\t-Mission Unsuccessful-\n";
+    }
+
+    /**
+     * Returns text for delete command
+     *
+     * @param taskString toString of task
+     * @return Text for delete command
+     */
+    public String getDeleteHeaderString(String taskString) {
+        return "\t" + taskString + "\n\t\t-Mission Terminated-\n";
+    }
+
+    /**
+     * Returns text for check command
+     *
+     * @param dateBy Date to check
+     * @return Text for check command
+     */
+    public String getCheckHeaderString(LocalDateTime dateBy) {
+        return "\t\t-Missions by " + dateBy.format(Parser.PRINT_FORMAT) + "-\n";
+    }
+
+    /**
+     * Returns text for find command
+     *
+     * @param keyword Keyword being searched for
+     * @return Text for find command
+     */
+    public String getFindHeaderString(String keyword) {
+        return "\t\t-Missions matching: \"" + keyword + "\"-\n";
+    }
+
+    /**
+     * Returns logo as a string
+     * @return Logo as a string
+     */
+    public String getLogoString() {
+        return LOGO + "\n";
     }
 }

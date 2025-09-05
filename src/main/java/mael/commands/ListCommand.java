@@ -7,8 +7,16 @@ import mael.ui.UI;
 public class ListCommand extends Command {
     
     @Override
-    public void execute(TaskList tasklist, UI ui, Storage storage) {
+    public void execute(TaskList taskList, UI ui, Storage storage) {
         ui.printListHeader();
-        ui.printList(tasklist.getTasksAsPrintStrings());
+        ui.printList(taskList.getTasksAsPrintStrings());
+    }
+
+    @Override
+    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+        String response = "";
+        response += ui.getListHeaderString();
+        response += ui.getListString(taskList.getTasksAsPrintStrings());
+        return response;
     }
 }
