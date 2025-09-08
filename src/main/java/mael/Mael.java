@@ -1,6 +1,7 @@
 package mael;
 
 import mael.commands.Command;
+import mael.gui.GUI;
 import mael.parser.Parser;
 import mael.storage.Storage;
 import mael.taskList.TaskList;
@@ -16,12 +17,16 @@ public class Mael {
     private TaskList tasks;
     private boolean hasDelay;
     private boolean hasSequences;
+    private GUI gui;
 
     /**
      * Alternative constructor of Mael for {@code Launcher}
+     * 
+     * @param gui GUI displaying Mael
      */
-    public Mael() {
+    public Mael(GUI gui) {
         this.DATA_PATH_NAME = DEFAULT_DATA_PATH_NAME;
+        this.gui = gui;
         ui = new UI(false, false);
         storage = new Storage(DATA_PATH_NAME);
         tasks = new TaskList(storage, ui);
@@ -31,9 +36,13 @@ public class Mael {
      * Default constructor of Mael
      * 
      * @param dataPathName Path of Task data
+     * @param hasDelay Enables delay during display 
+     * @param hasSequences Enables launching and closing animations
+     * @param gui GUI displaying Mael
      */
-    public Mael(String dataPathName, boolean hasDelay, boolean hasSequences) {
+    public Mael(String dataPathName, boolean hasDelay, boolean hasSequences, GUI gui) {
         this.DATA_PATH_NAME = dataPathName;
+        this.gui = gui;
         ui = new UI(hasDelay, hasSequences);
         storage = new Storage(DATA_PATH_NAME);
         tasks = new TaskList(storage, ui);
@@ -41,9 +50,6 @@ public class Mael {
 
     /**
      * Runs instance of Mael
-     * 
-     * @param hasDelay Enables delay during display 
-     * @param hasSequences Enables launching and closing animations
      */
     public void run() {
         try {
@@ -75,6 +81,12 @@ public class Mael {
         }
     }
 
+    /**
+     * Gets Mael's response to user input
+     * 
+     * @param input User input
+     * @return Mael's response
+     */
     public String getResponse(String input) {
         String response = "";
 
@@ -82,6 +94,9 @@ public class Mael {
             response += ui.getDividerLineString();
             Command command = Parser.parseInput(input);
             response += command.executeReturnString(tasks, ui, storage);
+            if (command.isExit() && gui != null) {
+                gui.close();
+            }
         } catch (MaelException e) {
             response += ui.getExceptionString(e);
         } finally {
@@ -90,11 +105,16 @@ public class Mael {
         return response;
     }
 
+    /**
+     * Gets Mael's welcome message
+     * 
+     * @return Mael's welcome message
+     */
     public String getWelcomeMessage() {
-        return ui.getLogoString();
+        return ui.guiLaunchString();
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new Mael("data/Mael.txt",true, true).run();
+        new Mael("data/Mael.txt",true, true, null).run();
     }
 }

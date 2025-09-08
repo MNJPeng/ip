@@ -14,7 +14,7 @@ public class ExitCommand extends Command{
     @Override
     public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
         storage.save(taskList);
-        return ui.getLogoString();
+        return ui.guiCloseString();
     }
 
     @Override

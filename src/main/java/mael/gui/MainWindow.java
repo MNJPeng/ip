@@ -34,7 +34,9 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Mael instance */
+    /** 
+     * Injects the Mael instance 
+     */
     public void setMael(Mael m) {
         mael = m;
     }

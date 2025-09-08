@@ -14,7 +14,7 @@ import mael.Mael;
  */
 public class GUI extends Application {
 
-    private Mael mael = new Mael();
+    private Mael mael = new Mael(this);
     private Stage stage;
 
     @Override
@@ -33,6 +33,9 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * Closes the GUI application
+     */
     public void close() {
         stage.close();
     }

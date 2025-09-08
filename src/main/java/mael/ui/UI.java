@@ -80,6 +80,15 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
 
     /**
+     * Returns text when lauching Mael with GUI
+     * 
+     * @return Text when launching Mael with GUI
+     */
+    public String guiLaunchString() {
+        return "Mael injection initiated\nAwaiting instructions...\n\n";
+    }
+
+    /**
      * Displays final text when closing Mael
      *
      * @throws InterruptedException If sleep is interrupted
@@ -108,6 +117,15 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      */
     public void safeClose() {
         System.out.println("\tClose Sequence Interrupted..\n\n\tClosing immediately");
+    }
+
+    /**
+     * Returns text when closing Mael with GUI
+     * 
+     * @return Text when closing Mael with GUI
+     */
+    public String guiCloseString() {
+        return "Mael Erased\nLike you were never here...\n";
     }
 
     /**
