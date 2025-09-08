@@ -22,4 +22,9 @@ public class MarkCommand extends Command {
     public void execute(TaskList taskList, UI ui, Storage storage) throws MaelException {
         ui.printMarkHeader(taskList.markComplete(TASK_NUM));
     }
+
+    @Override
+    public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
+        return ui.getMarkHeaderString(taskList.markComplete(TASK_NUM));
+    }
 }

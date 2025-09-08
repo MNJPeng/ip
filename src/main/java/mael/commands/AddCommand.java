@@ -2,6 +2,7 @@ package mael.commands;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+
 import mael.MaelException;
 import mael.parser.Parser;
 import mael.storage.Storage;
@@ -72,5 +73,11 @@ public class AddCommand extends Command {
         if (isDisplayed) {
             ui.printAddHeader(task);
         }
+    }
+
+    @Override
+    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+        String task = taskList.add(title, date1, date2, isCompleted);
+        return ui.getAddHeaderString(task);
     }
 }

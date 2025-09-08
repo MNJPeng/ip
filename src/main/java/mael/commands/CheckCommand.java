@@ -1,6 +1,7 @@
 package mael.commands;
 
 import java.time.LocalDateTime;
+
 import mael.MaelException;
 import mael.storage.Storage;
 import mael.taskList.TaskList;
@@ -24,5 +25,13 @@ public class CheckCommand extends Command {
     public void execute(TaskList taskList, UI ui, Storage storage) throws MaelException {
         ui.printCheckHeader(DATE_BY);
         ui.printList(taskList.checkDate(DATE_BY));
+    }
+
+    @Override
+    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+        String response = "";
+        response += ui.getCheckHeaderString(DATE_BY);
+        response += ui.getListString(taskList.checkDate(DATE_BY));
+        return response;
     }
 }

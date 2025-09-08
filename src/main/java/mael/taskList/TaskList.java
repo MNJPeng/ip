@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import mael.MaelException;
 import mael.commands.Command;
 import mael.parser.Parser;
@@ -19,6 +20,7 @@ public class TaskList {
      * Default Constructor of TaskList
      *
      * @param storage Storage to load and save {@code Task}
+     * @param ui UI to display {@code Task}
      */
     public TaskList(Storage storage, UI ui) {
         storage.load().forEach(text -> {
@@ -46,7 +48,9 @@ public class TaskList {
     /**
      * Returns a list of Strings which represent {@code Task} to save
      *
-     * @return List of Strings to save in storage
+     * @param tasks List of Tasks to convert
+     * @param function Function to convert {@code Task} to String
+     * @return List of Strings representing {@code Task}
      */
     private List<String> getTasksAsStrings(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
         return tasks.stream().map(function).collect(Collectors.toList());
@@ -78,7 +82,11 @@ public class TaskList {
      * @throws MaelException If task is already complete
      */
     public String markComplete(int num) throws MaelException {
-        tasks.get(num - 1).markComplete();
+        try {
+            tasks.get(num - 1).markComplete();
+        } catch (IndexOutOfBoundsException e) {
+            throw new MaelException("Mission not found");
+        }
         return tasks.get(num - 1).toString();
     }
 
@@ -90,7 +98,11 @@ public class TaskList {
      * @throws MaelException If task is already incomplete
      */
     public String markIncomplete(int num) throws MaelException {
-        tasks.get(num - 1).markIncomplete();
+        try {
+            tasks.get(num - 1).markIncomplete();
+        } catch (IndexOutOfBoundsException e) {
+            throw new MaelException("Mission not found");
+        }
         return tasks.get(num - 1).toString();
     }
 
@@ -99,11 +111,14 @@ public class TaskList {
      *
      * @param num Task number
      * @return toString of Task deleted
-     * @throws MaelException If task is already incomplete
+     * @throws MaelException If task does not exist
      */
-    public String delete(int num) {
-        return tasks.remove(num - 1).toString();
-
+    public String delete(int num) throws MaelException {
+        try {
+            return tasks.remove(num - 1).toString();
+        } catch (IndexOutOfBoundsException e) {
+            throw new MaelException("Mission not found");
+        }
     }
 
     /**
