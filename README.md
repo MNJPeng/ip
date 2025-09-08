@@ -23,7 +23,7 @@ To speed up or disable startup and shutdown sequences, `main` can be modified.
 
 ```
 public static void main(String[] args) throws InterruptedException {
-  new Mael("data/Mael.txt").run(true, true);
+  new Mael("data/Mael.txt",true, true, null).run();
 }
 ```
 - To speed up:
