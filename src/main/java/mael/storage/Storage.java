@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import mael.taskList.TaskList;
+import mael.tasklist.TaskList;
 
 public class Storage {
 

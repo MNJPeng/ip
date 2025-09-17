@@ -1,4 +1,4 @@
-package mael.taskList;
+package mael.tasklist;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

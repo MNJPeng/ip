@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import mael.MaelException;
 import mael.parser.Parser;
 import mael.storage.Storage;
-import mael.taskList.TaskList;
+import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public class AddCommand extends Command {

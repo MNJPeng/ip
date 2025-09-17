@@ -4,7 +4,7 @@ import mael.commands.Command;
 import mael.gui.GUI;
 import mael.parser.Parser;
 import mael.storage.Storage;
-import mael.taskList.TaskList;
+import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public class Mael {

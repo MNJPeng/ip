@@ -3,7 +3,7 @@ package mael.commands;
 import java.util.stream.Collectors;
 
 import mael.storage.Storage;
-import mael.taskList.TaskList;
+import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public class FindCommand extends Command {
