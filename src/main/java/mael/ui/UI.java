@@ -17,11 +17,11 @@ public class UI {
      */
     public UI(boolean has_delay, boolean has_sequences) {
         this.HAS_DELAY = has_delay;
-        this.SEQUENCES = has_sequences;
+        this.HAS_SEQUENCES = has_sequences;
     }
 
     private final boolean HAS_DELAY; // Set to false for no delays
-    private final boolean SEQUENCES; // Set to false for no delays
+    private final boolean HAS_SEQUENCES; // Set to false for no delays
 
     private final Random RNG = new Random(100);
     private final Scanner SCANNER = new Scanner(System.in);
@@ -54,7 +54,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      * @throws InterruptedException If sleep is interrupted
      */
     public void launch() throws InterruptedException {
-        if (SEQUENCES) {
+        if (HAS_SEQUENCES) {
             String[] texts = new String[]{"Injecting Mael", ".", ".", ".\n", null,
                 "Mael injection complete\n", "Awaiting instructions", ".", ".", ".\n\n"};
             int[] delays = new int[]{400, 400, 400, 800, 1200, 600, 400, 400, 400, 400};
@@ -94,7 +94,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
      * @throws InterruptedException If sleep is interrupted
      */
     public void close() throws InterruptedException {
-        if (SEQUENCES) {
+        if (HAS_SEQUENCES) {
             String[] texts = new String[]{"\nWiping Mael", ".", ".", ".\n", null,
                 "Mael Erased\n", "Like you were never here...\n"};
             int[] delays = new int[]{400, 400, 400, 800, 1200, 600, 1200};
