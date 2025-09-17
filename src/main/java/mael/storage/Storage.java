@@ -106,6 +106,7 @@ public class Storage {
             return false;  //Shouldn't happen
         }
 
+        assert taskFile.exists();
         return true;
     }
 }
