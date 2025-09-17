@@ -22,6 +22,7 @@ public class AddCommand extends Command {
      *
      * @param title Task title
      * @param isCompleted Completion state of Task
+     * @param isDisplayed Display state of Task
      */
     public AddCommand(String title, boolean isCompleted, boolean isDisplayed) {
         this.title = title;
@@ -35,6 +36,7 @@ public class AddCommand extends Command {
      * @param title Task title
      * @param deadline Deadline of deadline task
      * @param isCompleted Completion state of Task
+     * @param isDisplayed Display state of Task
      */
     public AddCommand(String title, String deadline, boolean isCompleted, boolean isDisplayed) throws MaelException {
         this.title = title;
@@ -54,6 +56,7 @@ public class AddCommand extends Command {
      * @param from Start date of Event
      * @param by End date of Event
      * @param isCompleted Completion state of Task
+     * @param isDisplayed Display state of Task
      */
     public AddCommand(String title, String from, String by, boolean isCompleted, boolean isDisplayed) throws MaelException {
         this.title = title;

@@ -357,6 +357,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
 
     /**
      * Returns logo as a string
+     * 
      * @return Logo as a string
      */
     public String getLogoString() {

@@ -36,7 +36,10 @@ public class TaskList {
     /**
      * Adds {@code Task} with title
      *
-     * @param title Title of {@code Task}
+     * @param title Title of task
+     * @param date1 Deadline or Start Date (null if none)
+     * @param date2 End Date (null if none)
+     * @param isCompleted Completion state of Task
      * @return {@code Task.toString()}
      */
     public String add(String title, LocalDateTime date1, LocalDateTime date2, boolean isCompleted) {
@@ -154,8 +157,8 @@ public class TaskList {
          * Factory method for {@code Task}
          *
          * @param title Title of task
-         * @param date1 Deadline or Start Date
-         * @param date2 End Date
+         * @param date1 Deadline or Start Date (null if none)
+         * @param date2 End Date (null if none)
          * @param isCompleted Completion state of Task
          * @return Subclass of {@code Task} depending on input
          */

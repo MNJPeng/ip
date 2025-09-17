@@ -61,9 +61,9 @@ public class Storage {
     }
 
     /**
-     * Saved tasks from a list of strings
+     * Saves tasks from a {@code TaskList}
      * 
-     * @param tasks List of tasks as strings
+     * @param tasks {@code TaskList} to save
      */
     public void save(TaskList tasks) {
 
