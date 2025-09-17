@@ -29,7 +29,9 @@ public class Parser {
      */
     public static Command parseInput(String text) throws MaelException {
         String[] sections = text.split(" /");
+        assert sections.length > 0;
         String[] commandSections = sections[0].split(" ", 2);
+        assert commandSections.length > 0;
         switch (commandSections[0]) {
             case "event" -> {
                 if (commandSections.length == 1) {
@@ -156,6 +158,7 @@ public class Parser {
      */
     public static Command parseStorage(String text) throws MaelException {
         String[] sections = text.split(" \\| ");
+        assert sections.length > 0;
         try {
             switch (sections[0]) {
                 case "T":
