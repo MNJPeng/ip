@@ -55,7 +55,10 @@ public class TaskList {
      * @param function Function to convert {@code Task} to String
      * @return List of Strings representing {@code Task}
      */
-    private List<String> getTasksAsStrings(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
+    private List<String> getTasksAsStrings(
+        List<? extends Task> tasks, 
+        Function<? super Task, 
+        ? extends String> function) {
         return tasks.stream().map(function).collect(Collectors.toList());
     }
 
@@ -133,7 +136,10 @@ public class TaskList {
      * Deadlines where {@code dateBy} is after the deadline
      */
     public List<String> checkDate(LocalDateTime dateBy) {
-        return getTasksAsStrings(tasks.stream().filter(task -> task.checkDate(dateBy)).collect(Collectors.toList()), Task::toString);
+        return getTasksAsStrings(tasks.stream()
+                .filter(task -> task.checkDate(dateBy))
+                .collect(Collectors.toList()), 
+            Task::toString);
     }
 
     /**
@@ -304,7 +310,8 @@ public class TaskList {
              */
             @Override
             public String saveString() {
-                return "D | " + super.getComplete() + " | " + super.title + " | " + this.DEADLINE.format(Parser.USER_FORMAT) + "\n";
+                return "D | " + super.getComplete() + " | " + super.title + " | "
+                 + this.DEADLINE.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
@@ -359,7 +366,8 @@ public class TaskList {
              */
             @Override
             public String saveString() {
-                return "E | " + super.getComplete() + " | " + super.title + " | " + this.START.format(Parser.USER_FORMAT) + " | " + this.END.format(Parser.USER_FORMAT) + "\n";
+                return "E | " + super.getComplete() + " | " + super.title + " | "
+                 + this.START.format(Parser.USER_FORMAT) + " | " + this.END.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
@@ -377,7 +385,8 @@ public class TaskList {
 
             @Override
             public String toString() {
-                return "[E]" + super.toString() + " (alpha: " + this.START.format(Parser.PRINT_FORMAT) + ", delta: " + this.END.format(Parser.PRINT_FORMAT) + ")";
+                return "[E]" + super.toString() + " (alpha: " + this.START.format(Parser.PRINT_FORMAT)
+                 + ", delta: " + this.END.format(Parser.PRINT_FORMAT) + ")";
             }
 
         }

@@ -15,8 +15,6 @@ public class Mael {
     private UI ui;
     private Storage storage;
     private TaskList tasks;
-    private boolean hasDelay;
-    private boolean hasSequences;
     private GUI gui;
 
     /**
