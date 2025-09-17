@@ -14,5 +14,9 @@
             "path": "C:\\Program Files\\Java\\jdk-17",
             "default": true
         }
-    ]
+    ],
+    "editor.rulers": [
+        120
+    ],
+    "java.checkstyle.configuration": "${workspaceFolder}\\config\\checkstyle\\checkstyle.xml",
 }

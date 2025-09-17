@@ -1,4 +1,4 @@
-package mael.taskList;
+package mael.tasklist;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,7 +36,10 @@ public class TaskList {
     /**
      * Adds {@code Task} with title
      *
-     * @param title Title of {@code Task}
+     * @param title Title of task
+     * @param date1 Deadline or Start Date (null if none)
+     * @param date2 End Date (null if none)
+     * @param isCompleted Completion state of Task
      * @return {@code Task.toString()}
      */
     public String add(String title, LocalDateTime date1, LocalDateTime date2, boolean isCompleted) {
@@ -52,7 +55,10 @@ public class TaskList {
      * @param function Function to convert {@code Task} to String
      * @return List of Strings representing {@code Task}
      */
-    private List<String> getTasksAsStrings(List<? extends Task> tasks, Function<? super Task, ? extends String> function) {
+    private List<String> getTasksAsStrings(
+        List<? extends Task> tasks, 
+        Function<? super Task, 
+        ? extends String> function) {
         return tasks.stream().map(function).collect(Collectors.toList());
     }
 
@@ -130,7 +136,10 @@ public class TaskList {
      * Deadlines where {@code dateBy} is after the deadline
      */
     public List<String> checkDate(LocalDateTime dateBy) {
-        return getTasksAsStrings(tasks.stream().filter(task -> task.checkDate(dateBy)).collect(Collectors.toList()), Task::toString);
+        return getTasksAsStrings(tasks.stream()
+                .filter(task -> task.checkDate(dateBy))
+                .collect(Collectors.toList()), 
+            Task::toString);
     }
 
     /**
@@ -154,8 +163,8 @@ public class TaskList {
          * Factory method for {@code Task}
          *
          * @param title Title of task
-         * @param date1 Deadline or Start Date
-         * @param date2 End Date
+         * @param date1 Deadline or Start Date (null if none)
+         * @param date2 End Date (null if none)
          * @param isCompleted Completion state of Task
          * @return Subclass of {@code Task} depending on input
          */
@@ -301,7 +310,8 @@ public class TaskList {
              */
             @Override
             public String saveString() {
-                return "D | " + super.getComplete() + " | " + super.title + " | " + this.DEADLINE.format(Parser.USER_FORMAT) + "\n";
+                return "D | " + super.getComplete() + " | " + super.title + " | "
+                 + this.DEADLINE.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
@@ -356,7 +366,8 @@ public class TaskList {
              */
             @Override
             public String saveString() {
-                return "E | " + super.getComplete() + " | " + super.title + " | " + this.START.format(Parser.USER_FORMAT) + " | " + this.END.format(Parser.USER_FORMAT) + "\n";
+                return "E | " + super.getComplete() + " | " + super.title + " | "
+                 + this.START.format(Parser.USER_FORMAT) + " | " + this.END.format(Parser.USER_FORMAT) + "\n";
             }
 
             /**
@@ -374,7 +385,8 @@ public class TaskList {
 
             @Override
             public String toString() {
-                return "[E]" + super.toString() + " (alpha: " + this.START.format(Parser.PRINT_FORMAT) + ", delta: " + this.END.format(Parser.PRINT_FORMAT) + ")";
+                return "[E]" + super.toString() + " (alpha: " + this.START.format(Parser.PRINT_FORMAT)
+                 + ", delta: " + this.END.format(Parser.PRINT_FORMAT) + ")";
             }
 
         }

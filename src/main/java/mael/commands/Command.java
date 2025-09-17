@@ -2,7 +2,7 @@ package mael.commands;
 
 import mael.MaelException;
 import mael.storage.Storage;
-import mael.taskList.TaskList;
+import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public abstract class Command {

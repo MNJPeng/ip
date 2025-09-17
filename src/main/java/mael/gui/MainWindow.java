@@ -36,6 +36,8 @@ public class MainWindow extends AnchorPane {
 
     /** 
      * Injects the Mael instance 
+     * 
+     * @param m {@code Mael} instance
      */
     public void setMael(Mael m) {
         mael = m;
