@@ -25,6 +25,8 @@ public class GUI extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Mael");
+            stage.setResizable(true);
             fxmlLoader.<MainWindow>getController().setMael(mael);  // inject the Mael instance
             stage.show();
             fxmlLoader.<MainWindow>getController().addMaelDialogBox(mael.getWelcomeMessage());
