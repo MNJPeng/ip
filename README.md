@@ -1,6 +1,6 @@
 # ☠️ **Mael** 
 
-> Ready to receive missions
+> Ready to ~~take over~~ receive missions
 
 ## Purpose
 - Load and save missions
