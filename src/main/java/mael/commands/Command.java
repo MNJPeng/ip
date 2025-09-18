@@ -6,6 +6,7 @@ import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public abstract class Command {
+    // The following javadoc comments have been written with the help of copilot
     
     /**
      * Executes associated command without updating command list
