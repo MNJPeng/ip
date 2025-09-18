@@ -1,6 +1,7 @@
 package mael;
 
 import mael.commands.Command;
+import mael.commands.CommandList;
 import mael.gui.GUI;
 import mael.parser.Parser;
 import mael.storage.Storage;
@@ -9,13 +10,18 @@ import mael.ui.UI;
 
 public class Mael {
 
-    private final String DATA_PATH_NAME;
-    private final String DEFAULT_DATA_PATH_NAME = "data/Mael.txt";
+    private final String TASK_DATA_PATH_NAME;
+    private final String DEFAULT_TASK_DATA_PATH_NAME = "data/MaelTasks.txt";
 
-    private UI ui;
-    private Storage storage;
-    private TaskList tasks;
-    private GUI gui;
+    private final String COMMAND_DATA_PATH_NAME;
+    private final String DEFAULT_COMMAND_DATA_PATH_NAME = "data/MaelCommands.txt";
+
+    private final UI ui;
+    private final Storage taskStorage;
+    private final Storage commandStorage;
+    private final TaskList tasks;
+    private final CommandList commands;
+    private final GUI gui;
 
     /**
      * Alternative constructor of Mael for {@code Launcher}
@@ -23,11 +29,14 @@ public class Mael {
      * @param gui GUI displaying Mael
      */
     public Mael(GUI gui) {
-        this.DATA_PATH_NAME = DEFAULT_DATA_PATH_NAME;
+        this.TASK_DATA_PATH_NAME = DEFAULT_TASK_DATA_PATH_NAME;
+        this.COMMAND_DATA_PATH_NAME = DEFAULT_COMMAND_DATA_PATH_NAME;
         this.gui = gui;
         ui = new UI(false, false);
-        storage = new Storage(DATA_PATH_NAME);
-        tasks = new TaskList(storage, ui);
+        taskStorage = new Storage(TASK_DATA_PATH_NAME);
+        tasks = new TaskList(taskStorage, ui);
+        commandStorage = new Storage(COMMAND_DATA_PATH_NAME);
+        commands = new CommandList(commandStorage, ui);
     }
 
     /**
@@ -38,16 +47,20 @@ public class Mael {
      * @param hasSequences Enables launching and closing animations
      * @param gui GUI displaying Mael
      */
-    public Mael(String dataPathName, boolean hasDelay, boolean hasSequences, GUI gui) {
-        this.DATA_PATH_NAME = dataPathName;
+    public Mael(String commandDataPathName, String taskDataPathName, 
+        boolean hasDelay, boolean hasSequences, GUI gui) {
+        this.TASK_DATA_PATH_NAME = taskDataPathName;
+        this.COMMAND_DATA_PATH_NAME = commandDataPathName;
         this.gui = gui;
         ui = new UI(hasDelay, hasSequences);
-        storage = new Storage(DATA_PATH_NAME);
-        tasks = new TaskList(storage, ui);
+        taskStorage = new Storage(TASK_DATA_PATH_NAME);
+        tasks = new TaskList(taskStorage, ui);
+        commandStorage = new Storage(COMMAND_DATA_PATH_NAME);
+        commands = new CommandList(commandStorage, ui);
     }
 
     /**
-     * Runs instance of Mael
+     * Runs instance of Mael (Depreciated version that does not support undoCommand)
      */
     public void run() {
         try {
@@ -63,7 +76,7 @@ public class Mael {
             String input = ui.nextLine();
             ui.printDividerLine();
             Command command = Parser.parseInput(input);
-            command.execute(tasks, ui, storage);
+            command.execute(tasks, taskStorage, ui);
             isExit = command.isExit();
         } catch (MaelException e) {
             ui.printException(e);
@@ -91,7 +104,7 @@ public class Mael {
         try {
             response += ui.getDividerLineString();
             Command command = Parser.parseInput(input);
-            response += command.executeReturnString(tasks, ui, storage);
+            response += command.executeReturnString(commands, commandStorage, tasks, taskStorage, ui);
             if (command.isExit() && gui != null) {
                 gui.close();
             }
@@ -113,6 +126,6 @@ public class Mael {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new Mael("data/Mael.txt",true, true, null).run();
+        new Mael("data/MaelCommands.txt", "data/MaelTasks.txt", true, true, null).run();
     }
 }

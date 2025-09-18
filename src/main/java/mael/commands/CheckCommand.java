@@ -21,19 +21,25 @@ public class CheckCommand extends Command {
         this.DATE_BY = Parser.parseDate(dateBy);
     }
 
-
     @Override
-    public void execute(TaskList taskList, UI ui, Storage storage) throws MaelException {
+    public void execute(TaskList taskList, Storage taskStorage, UI ui) {
         ui.printCheckHeader(DATE_BY);
         ui.printList(taskList.checkDate(DATE_BY));
     }
 
     @Override
-    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+    public String executeReturnString(CommandList commandList, Storage commandStorage, 
+        TaskList taskList, Storage taskStorage, UI ui) {
         String response = "";
         response += ui.getCheckHeaderString(DATE_BY);
         response += ui.getListString(taskList.checkDate(DATE_BY));
         return response;
+    }
+
+    @Override
+    public String undoReturnString(CommandList commandList, Storage commandStorage,
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        throw new MaelException("Check command cannot be undone");
     }
 
     @Override

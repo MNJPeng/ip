@@ -13,6 +13,7 @@ import mael.commands.ExitCommand;
 import mael.commands.FindCommand;
 import mael.commands.ListCommand;
 import mael.commands.MarkCommand;
+import mael.commands.UndoCommand;
 import mael.commands.UnmarkCommand;
 
 public class Parser {
@@ -59,6 +60,9 @@ public class Parser {
             }
             case "find", "f" -> {
                 return handleFindInput(commandSections);
+            }
+            case "undo" -> {
+                return handleUndoInput(commandSections);
             }
             case "bye" -> {
                 return handleExitInput(text);
@@ -167,7 +171,19 @@ public class Parser {
     }
 
     private static Command handleFindInput(String[] commandSections) throws MaelException {
-        return new FindCommand(commandSections[1]);
+        if (commandSections.length == 2) {
+            return new FindCommand(commandSections[1]);
+        } else {
+            throw new MaelException("Unknown command for find");
+        }
+    }
+
+    private static Command handleUndoInput(String[] commandSections) throws MaelException {
+        if (commandSections.length == 1) {
+            return new UndoCommand();
+        } else {
+            throw new MaelException("Unknown command for undo");
+        }
     }
 
     private static Command handleExitInput(String text) throws MaelException {
@@ -319,7 +335,7 @@ public class Parser {
      * @return {@code AddCommand} based on stored task
      * @throws MaelException If task in storage was corrupted
      */
-    public static Command parseTaskStorage(String text) throws MaelException {
+    public static AddCommand parseTaskStorage(String text) throws MaelException {
         String[] sections = text.split(" \\| ");
         assert sections.length > 0;
         try {
@@ -338,7 +354,7 @@ public class Parser {
         }
     }
 
-    private static Command handleTodoFromStorage(String[] sections) throws MaelException {
+    private static AddCommand handleTodoFromStorage(String[] sections) throws MaelException {
         if (sections.length == 3) {
             return new AddCommand(sections[2],
                     sections[1].equals("X"), false);
@@ -347,7 +363,7 @@ public class Parser {
         }
     }
 
-    private static Command handleDeadlineFromStorage(String[] sections) throws MaelException {
+    private static AddCommand handleDeadlineFromStorage(String[] sections) throws MaelException {
         if (sections.length == 4) {
             return new AddCommand(sections[2],
                     sections[3],
@@ -357,7 +373,7 @@ public class Parser {
         }
     }
 
-    private static Command handleEventFromStorage(String[] sections) throws MaelException {
+    private static AddCommand handleEventFromStorage(String[] sections) throws MaelException {
         if (sections.length == 5) {
             return new AddCommand(sections[2],
                     sections[3],

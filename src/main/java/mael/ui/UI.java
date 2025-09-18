@@ -356,6 +356,16 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     }
 
     /**
+     * Returns text for undo command
+     *
+     * @param effect Effect caused by undo
+     * @return Text for undo command
+     */
+    public String getUndoHeaderString(String effect) {
+        return "\t\t-Rewinding Time: \"" + effect + "\"-\n";
+    }
+
+    /**
      * Returns logo as a string
      * 
      * @return Logo as a string

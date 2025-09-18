@@ -19,13 +19,23 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, UI ui, Storage storage) throws MaelException {
+    public void execute(TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         ui.printUnmarkHeader(taskList.markIncomplete(TASK_NUM));
     }
 
     @Override
-    public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
+    public String executeReturnString(CommandList commandList, Storage commandStorage, 
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        commandList.addCommandtoList(this);
         return ui.getUnmarkHeaderString(taskList.markIncomplete(TASK_NUM));
+    }
+
+    @Override
+    public String undoReturnString(CommandList commandList, Storage commandStorage,
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        taskList.markComplete(TASK_NUM);
+        commandList.removeCommand(this);
+        return ui.getUndoHeaderString("Remarking Mission...");
     }
 
     @Override

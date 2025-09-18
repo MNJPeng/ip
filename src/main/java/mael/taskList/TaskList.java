@@ -26,7 +26,7 @@ public class TaskList {
         storage.load().forEach(text -> {
             try {
                 Command c = Parser.parseTaskStorage(text);
-                c.execute(this, ui, storage);
+                c.execute(this, storage, ui);
             } catch (MaelException e) {
                 ui.printException(e);
             }
@@ -45,6 +45,28 @@ public class TaskList {
     public String add(String title, LocalDateTime date1, LocalDateTime date2, boolean isCompleted) {
         Task task = Task.of(title, date1, date2, isCompleted);
         tasks.add(task);
+        return task.toString();
+    }
+
+    /**
+     * Inserts {@code Task} with title at index
+     *
+     * @param title Title of task
+     * @param date1 Deadline or Start Date (null if none)
+     * @param date2 End Date (null if none)
+     * @param isCompleted Completion state of Task
+     * @param index Index to insert task at
+     * @return {@code Task.toString()}
+     * @throws MaelException If index is out of bounds
+     */
+    public String insertAtIndex(String title, LocalDateTime date1, 
+        LocalDateTime date2, boolean isCompleted, int index) throws MaelException {
+        Task task = Task.of(title, date1, date2, isCompleted);
+        try { 
+            tasks.add(index - 1, task);
+        } catch (IndexOutOfBoundsException e) {
+            throw new MaelException("Error re-adding mission");
+        }
         return task.toString();
     }
 
@@ -140,6 +162,37 @@ public class TaskList {
                 .filter(task -> task.checkDate(dateBy))
                 .collect(Collectors.toList()), 
             Task::toString);
+    }
+
+    /**
+     * Finds index of task in task list given its string representation
+     * 
+     * @param keyword String representation of task
+     * @return Index of task in task list + 1, -1 if not found
+     */
+    public int findIndexInTaskList(String keyword) {
+        for (Task task : tasks) {
+            if (task.toString().equals(keyword)) {
+                return tasks.indexOf(task) + 1;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Gets the save string of the task at the given index
+     * 
+     * @param index Index of task in task list (1-based)
+     * @return Save string of task at index
+     * @throws MaelException If index is invalid
+     */
+    public String getSaveStringFromIndex(int index) throws MaelException {
+        try {
+            String saveString = tasks.get(index - 1).saveString();
+            return saveString.substring(0, saveString.length() - 1); // remove newline
+        } catch (IndexOutOfBoundsException e) {
+            throw new MaelException("Mission not found");
+        }
     }
 
     /**

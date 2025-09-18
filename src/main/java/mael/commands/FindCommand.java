@@ -2,6 +2,7 @@ package mael.commands;
 
 import java.util.stream.Collectors;
 
+import mael.MaelException;
 import mael.storage.Storage;
 import mael.tasklist.TaskList;
 import mael.ui.UI;
@@ -20,7 +21,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, UI ui, Storage storage) {
+    public void execute(TaskList taskList, Storage taskStorage, UI ui) {
         ui.printFindHeader(keyword);
         ui.printList(taskList.getTasksAsPrintStrings()
             .stream()
@@ -30,7 +31,8 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+    public String executeReturnString(CommandList commandList, Storage commandStorage, 
+        TaskList taskList, Storage taskStorage, UI ui) {
         String response = "";
         response += ui.getFindHeaderString(keyword);
         response += ui.getListString(taskList.getTasksAsPrintStrings()
@@ -39,6 +41,12 @@ public class FindCommand extends Command {
             .collect(Collectors.toList())
         );
         return response;
+    }
+
+    @Override
+    public String undoReturnString(CommandList commandList, Storage commandStorage,
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        throw new MaelException("Find command cannot be undone");
     }
 
     @Override

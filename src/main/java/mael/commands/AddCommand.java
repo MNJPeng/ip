@@ -17,6 +17,8 @@ public class AddCommand extends Command {
     private boolean isCompleted;
     private boolean isDisplayed;
 
+    private int taskNumber;
+
     /**
      * Constructor for AddCommand for ToDo Tasks
      *
@@ -38,7 +40,8 @@ public class AddCommand extends Command {
      * @param isCompleted Completion state of Task
      * @param isDisplayed Display state of Task
      */
-    public AddCommand(String title, String deadline, boolean isCompleted, boolean isDisplayed) throws MaelException {
+    public AddCommand(String title, String deadline, boolean isCompleted, boolean isDisplayed) 
+        throws MaelException {
         this.title = title;
         try {
             this.date1 = Parser.parseDate(deadline);
@@ -71,18 +74,48 @@ public class AddCommand extends Command {
         this.isDisplayed = isDisplayed;
     }
 
+    /**
+     * Inserts task at specified index in task list. Used for undoing delete commands.
+     * 
+     * @param taskList TaskList object to add task to
+     * @param taskStorage Storage object to save task to
+     * @param ui UI object to display messages
+     * @param index Index to insert task at
+     * @throws MaelException If index is invalid
+     */
+    public void insertAtIndex(TaskList taskList, Storage taskStorage, UI ui, int index) throws MaelException {
+        taskList.insertAtIndex(title, date1, date2, isCompleted, index);
+        taskNumber = index;
+    }
+
     @Override
-    public void execute(TaskList taskList, UI ui, Storage storage) {
+    public void execute(TaskList taskList, Storage taskStorage, UI ui) {
         String task = taskList.add(title, date1, date2, isCompleted);
         if (isDisplayed) {
             ui.printAddHeader(task);
         }
+        taskNumber = taskList.findIndexInTaskList(task);
     }
 
     @Override
-    public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
+    public String executeReturnString(CommandList commandList, Storage commandStorage, 
+        TaskList taskList, Storage taskStorage, UI ui) {
         String task = taskList.add(title, date1, date2, isCompleted);
+        taskNumber = taskList.findIndexInTaskList(task);
+        commandList.addCommandtoList(this);
         return ui.getAddHeaderString(task);
+    }
+
+    @Override
+    public String undoReturnString(CommandList commandList, Storage commandStorage,
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        if (taskNumber > 0) {
+            taskList.delete(taskNumber);
+            commandList.removeCommand(this);
+            return ui.getUndoHeaderString("Removing Mission...");
+        } else {
+            throw new MaelException("Cannot undo add command as task not found");
+        }
     }
 
     @Override

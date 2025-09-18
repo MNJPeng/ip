@@ -1,12 +1,15 @@
 package mael.commands;
 
 import mael.MaelException;
+import mael.parser.Parser;
 import mael.storage.Storage;
 import mael.tasklist.TaskList;
 import mael.ui.UI;
 
 public class DeleteCommand extends Command {
     private final int TASK_NUM;
+
+    private String taskName;
 
     /**
      * Default constructor for DeleteCommand
@@ -18,13 +21,25 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, UI ui, Storage storage) throws MaelException {
+    public void execute(TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        taskName = taskList.getSaveStringFromIndex(TASK_NUM);
         ui.printDeleteHeader(taskList.delete(TASK_NUM));
     }
 
     @Override
-    public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
+    public String executeReturnString(CommandList commandList, Storage commandStorage, 
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        commandList.addCommandtoList(this);
+        taskName = taskList.getSaveStringFromIndex(TASK_NUM);
         return ui.getDeleteHeaderString(taskList.delete(TASK_NUM));
+    }
+
+    @Override
+    public String undoReturnString(CommandList commandList, Storage commandStorage,
+        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        Parser.parseTaskStorage(taskName).insertAtIndex(taskList, taskStorage, ui, TASK_NUM);
+        commandList.removeCommand(this);
+        return ui.getUndoHeaderString("Readding Mission...");
     }
 
     @Override
