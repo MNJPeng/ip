@@ -27,4 +27,9 @@ public class MarkCommand extends Command {
     public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
         return ui.getMarkHeaderString(taskList.markComplete(TASK_NUM));
     }
+
+    @Override
+    public String toString() {
+        return "Mark | " + TASK_NUM;
+    }
 }

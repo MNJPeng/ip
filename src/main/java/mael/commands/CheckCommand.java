@@ -3,6 +3,7 @@ package mael.commands;
 import java.time.LocalDateTime;
 
 import mael.MaelException;
+import mael.parser.Parser;
 import mael.storage.Storage;
 import mael.tasklist.TaskList;
 import mael.ui.UI;
@@ -16,8 +17,8 @@ public class CheckCommand extends Command {
      * 
      * @param dateBy Date to check whether in event durations, or after deadlines
      */
-    public CheckCommand(LocalDateTime dateBy) {
-        this.DATE_BY = dateBy;
+    public CheckCommand(String dateBy) {
+        this.DATE_BY = Parser.parseDate(dateBy);
     }
 
 
@@ -33,5 +34,10 @@ public class CheckCommand extends Command {
         response += ui.getCheckHeaderString(DATE_BY);
         response += ui.getListString(taskList.checkDate(DATE_BY));
         return response;
+    }
+
+    @Override
+    public String toString() {
+        return "Check | " + DATE_BY.format(Parser.USER_FORMAT);
     }
 }

@@ -26,4 +26,9 @@ public class DeleteCommand extends Command {
     public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
         return ui.getDeleteHeaderString(taskList.delete(TASK_NUM));
     }
+
+    @Override
+    public String toString() {
+        return "Delete | " + TASK_NUM;   
+    }
 }

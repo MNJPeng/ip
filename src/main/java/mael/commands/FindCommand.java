@@ -40,4 +40,9 @@ public class FindCommand extends Command {
         );
         return response;
     }
+
+    @Override
+    public String toString() {
+        return "Find | " + keyword;
+    }
 }

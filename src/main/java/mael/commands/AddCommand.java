@@ -58,7 +58,8 @@ public class AddCommand extends Command {
      * @param isCompleted Completion state of Task
      * @param isDisplayed Display state of Task
      */
-    public AddCommand(String title, String from, String by, boolean isCompleted, boolean isDisplayed) throws MaelException {
+    public AddCommand(String title, String from, String by, boolean isCompleted, boolean isDisplayed) 
+        throws MaelException {
         this.title = title;
         try {
             this.date1 = Parser.parseDate(from);
@@ -82,5 +83,11 @@ public class AddCommand extends Command {
     public String executeReturnString(TaskList taskList, UI ui, Storage storage) {
         String task = taskList.add(title, date1, date2, isCompleted);
         return ui.getAddHeaderString(task);
+    }
+
+    @Override
+    public String toString() {
+        return "Add | " + title + " | " + date1.format(Parser.USER_FORMAT) + " | "
+         + date2.format(Parser.USER_FORMAT) + " | " + isCompleted;
     }
 }

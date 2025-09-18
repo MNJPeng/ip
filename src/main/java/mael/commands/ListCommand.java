@@ -19,4 +19,9 @@ public class ListCommand extends Command {
         response += ui.getListString(taskList.getTasksAsPrintStrings());
         return response;
     }
+
+    @Override
+    public String toString() {
+        return "List";
+    }
 }

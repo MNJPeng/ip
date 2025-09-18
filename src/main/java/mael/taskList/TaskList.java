@@ -25,7 +25,7 @@ public class TaskList {
     public TaskList(Storage storage, UI ui) {
         storage.load().forEach(text -> {
             try {
-                Command c = Parser.parseStorage(text);
+                Command c = Parser.parseTaskStorage(text);
                 c.execute(this, ui, storage);
             } catch (MaelException e) {
                 ui.printException(e);

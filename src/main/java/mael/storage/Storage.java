@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import mael.commands.CommandList;
 import mael.tasklist.TaskList;
 
 public class Storage {
@@ -28,22 +29,22 @@ public class Storage {
     }
 
     /**
-     * Returns saved tasks as a list of strings
+     * Returns saved data as a list of strings
      * 
-     * @return List of tasks as strings
+     * @return List of data as strings
      */
     public ArrayList<String> load() {
-        ArrayList<String> tasks = new ArrayList<>();
+        ArrayList<String> data = new ArrayList<>();
 
         if (!buildFile()) {
-            return tasks;
+            return data;
         }
 
         try {
             Scanner taskReader = new Scanner(taskFile);
             while (taskReader.hasNextLine()) {
                 String currLine = taskReader.nextLine();
-                tasks.add(currLine);
+                data.add(currLine);
             }
             taskReader.close();
         } catch (FileNotFoundException e) {
@@ -57,7 +58,7 @@ public class Storage {
             }
         }
 
-        return tasks;
+        return data;
     }
 
     /**
@@ -75,6 +76,26 @@ public class Storage {
                 taskWriter.write(task);
             }
             taskWriter.close();
+        } catch (IOException e) {
+            System.err.println(e);  //Shouldn't happen
+        }
+    }
+
+    /**
+     * Saves commands from a {@code CommandList}
+     * 
+     * @param commands {@code CommandList} to save
+     */
+    public void save(CommandList commands) {
+
+        buildFile();
+
+        try {
+            FileWriter commandWriter = new FileWriter("./" + filePath);
+            for (String command : commands.getCommandsAsStrings()) {
+                commandWriter.write(command);
+            }
+            commandWriter.close();
         } catch (IOException e) {
             System.err.println(e);  //Shouldn't happen
         }

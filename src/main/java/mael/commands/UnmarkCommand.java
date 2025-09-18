@@ -27,4 +27,9 @@ public class UnmarkCommand extends Command {
     public String executeReturnString(TaskList taskList, UI ui, Storage storage) throws MaelException {
         return ui.getUnmarkHeaderString(taskList.markIncomplete(TASK_NUM));
     }
+
+    @Override
+    public String toString() {
+        return "Unmark | " + TASK_NUM;
+    }
 }
