@@ -34,42 +34,41 @@ public class Parser {
         String[] commandSections = sections[0].split(" ", 2);
         assert commandSections.length > 0;
         switch (commandSections[0]) {
-            case "event" -> {
-                return handleEventInput(sections, commandSections);
-            }
-            case "deadline" -> {
-                return handleDeadlineInput(sections, commandSections);
-            }
-            case "todo" -> {
-                return handleTodoInput(sections, commandSections);
-            }
-            case "list", "ls" -> {
-                return handleListInput(commandSections);
-            }
-            case "mark", "m" -> {
-                return handleMarkInput(commandSections);
-            }
-            case "unmark", "um" -> {
-                return handleUnmarkInput(commandSections);
-            }
-            case "delete", "del" -> {
-                return handleDeleteInput(commandSections);
-            }
-            case "check", "ch" -> {
-                return handleCheckInput(text, commandSections);
-            }
-            case "find", "f" -> {
-                return handleFindInput(commandSections);
-            }
-            case "undo" -> {
-                return handleUndoInput(commandSections);
-            }
-            case "bye" -> {
-                return handleExitInput(text);
-            }
-            default -> {
-                throw new MaelException("Unknown Mission");
-            }
+        case "event":
+            return handleEventInput(sections, commandSections);
+        
+        case "deadline":
+            return handleDeadlineInput(sections, commandSections);
+        
+        case "todo":
+            return handleTodoInput(sections, commandSections);
+        
+        case "list", "ls":
+            return handleListInput(commandSections);
+        
+        case "mark", "m":
+            return handleMarkInput(commandSections);
+        
+        case "unmark", "um":
+            return handleUnmarkInput(commandSections);
+        
+        case "delete", "del":
+            return handleDeleteInput(commandSections);
+        
+        case "check", "ch":
+            return handleCheckInput(text, commandSections);
+        
+        case "find", "f":
+            return handleFindInput(commandSections);
+        
+        case "undo":
+            return handleUndoInput(commandSections);
+        
+        case "bye":
+            return handleExitInput(text);
+        
+        default:
+            throw new MaelException("Unknown Mission");
         }
     }
 
@@ -217,24 +216,24 @@ public class Parser {
         assert sections.length > 0;
         try {
             switch (sections[0]) {
-                case "Add":
-                    return handleAddCommandFromStorage(sections);
-                case "Check":
-                    return handleCheckCommandFromStorage(sections);
-                case "Delete":
-                    return handleDeleteCommandFromStorage(sections);
-                case "Exit":
-                    return handleExitCommandFromStorage(sections);
-                case "Find":
-                    return handleFindCommandFromStorage(sections);
-                case "List":
-                    return handleListCommandFromStorage(sections);
-                case "Mark":
-                    return handleMarkCommandFromStorage(sections);
-                case "Unmark":
-                    return handleUnmarkCommandFromStorage(sections);
-                default:
-                    throw new MaelException("Unable to load unknown Command");
+            case "Add":
+                return handleAddCommandFromStorage(sections);
+            case "Check":
+                return handleCheckCommandFromStorage(sections);
+            case "Delete":
+                return handleDeleteCommandFromStorage(text, sections);
+            case "Exit":
+                return handleExitCommandFromStorage(sections);
+            case "Find":
+                return handleFindCommandFromStorage(sections);
+            case "List":
+                return handleListCommandFromStorage(sections);
+            case "Mark":
+                return handleMarkCommandFromStorage(sections);
+            case "Unmark":
+                return handleUnmarkCommandFromStorage(sections);
+            default:
+                throw new MaelException("Unable to load unknown Command");
             }
         } catch (DateTimeException e) {
             throw new MaelException("Date corrupted");
@@ -242,16 +241,26 @@ public class Parser {
     }
 
     private static AddCommand handleAddCommandFromStorage(String[] sections) throws MaelException {
-        if (sections.length == 5) {
-            if (sections[2].equals("")) {
-                return new AddCommand(sections[1], Boolean.parseBoolean(sections[4]), false);
-            } else if (sections[3].equals("")) {
-                return new AddCommand(sections[1], sections[2], Boolean.parseBoolean(sections[4]), false);
-            } else {
-                return new AddCommand(sections[1], sections[2], sections[3], Boolean.parseBoolean(sections[4]), false);
+        AddCommand c;
+        try {
+            switch (sections.length) {
+            case 4:
+                c = new AddCommand(sections[1], Boolean.parseBoolean(sections[2]), false);
+                c.setTaskNumber(Integer.parseInt(sections[3]));
+                return c;
+            case 5:
+                c = new AddCommand(sections[1], sections[2], Boolean.parseBoolean(sections[3]), false);
+                c.setTaskNumber(Integer.parseInt(sections[4]));
+                return c;
+            case 6:
+                c = new AddCommand(sections[1], sections[2], sections[3], Boolean.parseBoolean(sections[4]), false);
+                c.setTaskNumber(Integer.parseInt(sections[5]));
+                return c;
+            default:
+                throw new MaelException("Corrupted Add Command");
             }
-        } else {
-            throw new MaelException("Corrupted Add Command");
+        } catch (NumberFormatException e) {
+            throw new MaelException("Corrupted Add Command Task Number");
         }
     }
 
@@ -268,10 +277,13 @@ public class Parser {
         }
     }
 
-    private static DeleteCommand handleDeleteCommandFromStorage(String[] sections) throws MaelException {
-        if (sections.length == 2) {
+    private static DeleteCommand handleDeleteCommandFromStorage(String text, String[] sections) 
+            throws MaelException {
+        if (sections.length > 2) {
             try {
-                return new DeleteCommand(Integer.parseInt(sections[1]));
+                DeleteCommand c = new DeleteCommand(Integer.parseInt(sections[1]));
+                c.setTaskName(text.split(" \\| ", 3)[2]);
+                return c;
             } catch (NumberFormatException e) {
                 throw new MaelException("Corrupted Delete Command Number");
             }
@@ -340,14 +352,14 @@ public class Parser {
         assert sections.length > 0;
         try {
             switch (sections[0]) {
-                case "T":
-                    return handleTodoFromStorage(sections);
-                case "D":
-                    return handleDeadlineFromStorage(sections);
-                case "E":
-                    return handleEventFromStorage(sections);
-                default:
-                    throw new MaelException("Unable to load unknown task");
+            case "T":
+                return handleTodoFromStorage(sections);
+            case "D":
+                return handleDeadlineFromStorage(sections);
+            case "E":
+                return handleEventFromStorage(sections);
+            default:
+                throw new MaelException("Unable to load unknown task");
             }
         } catch (DateTimeException e) {
             throw new MaelException("Date corrupted");

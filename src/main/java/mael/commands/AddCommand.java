@@ -88,6 +88,15 @@ public class AddCommand extends Command {
         taskNumber = index;
     }
 
+    /**
+     * Sets the task number of the added task. Used for undoing add commands.
+     * 
+     * @param taskNumber Task number of added task
+     */
+    public void setTaskNumber(int taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
     @Override
     public void execute(TaskList taskList, Storage taskStorage, UI ui) {
         String task = taskList.add(title, date1, date2, isCompleted);
@@ -99,7 +108,7 @@ public class AddCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) {
+            TaskList taskList, Storage taskStorage, UI ui) {
         String task = taskList.add(title, date1, date2, isCompleted);
         taskNumber = taskList.findIndexInTaskList(task);
         commandList.addCommandtoList(this);
@@ -108,7 +117,7 @@ public class AddCommand extends Command {
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         if (taskNumber > 0) {
             taskList.delete(taskNumber);
             commandList.removeCommand(this);
@@ -120,7 +129,14 @@ public class AddCommand extends Command {
 
     @Override
     public String toString() {
-        return "Add | " + title + " | " + date1.format(Parser.USER_FORMAT) + " | "
-         + date2.format(Parser.USER_FORMAT) + " | " + isCompleted;
+        if (date1 == null) {
+            return "Add | " + title + " | " + isCompleted + " | " + taskNumber;
+        } else if (date2 == null) {
+            return "Add | " + title + " | " + date1.format(Parser.USER_FORMAT) + " | " + isCompleted 
+                    + " | " + taskNumber;
+        } else {
+            return "Add | " + title + " | " + date1.format(Parser.USER_FORMAT) + " | "
+                    + date2.format(Parser.USER_FORMAT) + " | " + isCompleted + " | " + taskNumber;
+        }
     }
 }

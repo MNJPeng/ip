@@ -24,15 +24,15 @@ public class FindCommand extends Command {
     public void execute(TaskList taskList, Storage taskStorage, UI ui) {
         ui.printFindHeader(keyword);
         ui.printList(taskList.getTasksAsPrintStrings()
-            .stream()
-            .filter(task -> task.contains(keyword))
-            .collect(Collectors.toList())
+                .stream()
+                .filter(task -> task.contains(keyword))
+                .collect(Collectors.toList())
         );
     }
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) {
+            TaskList taskList, Storage taskStorage, UI ui) {
         String response = "";
         response += ui.getFindHeaderString(keyword);
         response += ui.getListString(taskList.getTasksAsPrintStrings()
@@ -45,7 +45,7 @@ public class FindCommand extends Command {
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         throw new MaelException("Find command cannot be undone");
     }
 

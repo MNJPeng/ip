@@ -25,14 +25,15 @@ public class MarkCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        String response = taskList.markComplete(TASK_NUM);
         commandList.addCommandtoList(this);
-        return ui.getMarkHeaderString(taskList.markComplete(TASK_NUM));
+        return ui.getMarkHeaderString(response);
     }
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         taskList.markIncomplete(TASK_NUM);
         commandList.removeCommand(this);
         return ui.getUndoHeaderString("Unmarking Mission...");

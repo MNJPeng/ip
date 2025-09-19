@@ -75,7 +75,7 @@ public class CommandList {
      * @return The last command in the list of commands, or null if the list is empty
      */
     public Command getLastCommand() {
-        if (commands.size() > 0) {
+        if (!commands.isEmpty()) {
             return commands.get(commands.size() - 1);
         } else {
             return null;

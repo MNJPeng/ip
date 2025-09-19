@@ -46,7 +46,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
          X. R  `   '  9 )X
          `K  `       '  7'
           `             '
-        """;
+            """;
 
     /**
      * Displays initial text when running Mael
@@ -259,7 +259,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
         for (int i = 0; i < 50; i++) {
             line += symbols[RNG.nextInt(0, symbols.length - 1)];
         }
-       return line + "\n";
+        return line + "\n";
     }
 
     /**

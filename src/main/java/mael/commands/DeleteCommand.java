@@ -20,6 +20,15 @@ public class DeleteCommand extends Command {
         this.TASK_NUM = taskNum;
     }
 
+    /**
+     * Sets the task name of the deleted task. Used for undoing delete commands.
+     * 
+     * @param taskName Task name of deleted task
+     */
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
     @Override
     public void execute(TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         taskName = taskList.getSaveStringFromIndex(TASK_NUM);
@@ -28,15 +37,17 @@ public class DeleteCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
-        commandList.addCommandtoList(this);
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+        
         taskName = taskList.getSaveStringFromIndex(TASK_NUM);
-        return ui.getDeleteHeaderString(taskList.delete(TASK_NUM));
+        String response = taskList.delete(TASK_NUM);
+        commandList.addCommandtoList(this);
+        return ui.getDeleteHeaderString(response);
     }
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         Parser.parseTaskStorage(taskName).insertAtIndex(taskList, taskStorage, ui, TASK_NUM);
         commandList.removeCommand(this);
         return ui.getUndoHeaderString("Readding Mission...");
@@ -44,6 +55,6 @@ public class DeleteCommand extends Command {
 
     @Override
     public String toString() {
-        return "Delete | " + TASK_NUM;   
+        return "Delete | " + TASK_NUM + " | " + taskName;   
     }
 }

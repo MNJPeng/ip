@@ -4,8 +4,44 @@
     "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
+
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+
     <module name="LineLength">
         <property name="max" value="120"/>
         <property name="ignorePattern" value="^package|^import"/>
+    </module>
+
+    <module name="TreeWalker">
+
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="0"/>
+            <property name="lineWrappingIndentation" value="8"/>
+        </module>
+
+        <module name="LeftCurly">
+            <property name="option" value="eol"/>
+        </module>
+        <module name="RightCurly">
+            <property name="option" value="same"/>
+        </module>
+
+        <module name="FallThrough">
+            <property name="reliefPattern" value="// Fallthrough"/>
+        </module>
+
+        <module name="MissingSwitchDefault"/>
+
+        <module name="NeedBraces"/>
+        <module name="WhitespaceAround"/>
+        <module name="WhitespaceAfter"/>
+
+        <module name="ParenPad">
+            <property name="option" value="nospace"/>
+        </module>
     </module>
 </module>

@@ -73,7 +73,7 @@ public class Storage {
         try {
             FileWriter taskWriter = new FileWriter("./" + filePath);
             for (String task : tasks.getTasksAsSaveStrings()) {
-                taskWriter.write(task);
+                taskWriter.write(task + "\n");
             }
             taskWriter.close();
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class Storage {
         try {
             FileWriter commandWriter = new FileWriter("./" + filePath);
             for (String command : commands.getCommandsAsStrings()) {
-                commandWriter.write(command);
+                commandWriter.write(command + "\n");
             }
             commandWriter.close();
         } catch (IOException e) {

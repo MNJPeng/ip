@@ -13,7 +13,7 @@ public class UndoCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         Command lastCommand = commandList.getLastCommand();
         if (lastCommand != null) {
             return lastCommand.undoReturnString(commandList, commandStorage, taskList, taskStorage, ui);

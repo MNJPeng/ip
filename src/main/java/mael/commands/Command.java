@@ -28,7 +28,7 @@ public abstract class Command {
      * @return Result of execution as a string
      */
     public abstract String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException;
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException;
 
     /**
      * Undoes associated command and returns the result as a string
@@ -41,7 +41,7 @@ public abstract class Command {
      * @return Result of execution as a string
      */
     public abstract String undoReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException;
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException;
 
     /**
      * Returns true if is {@code ExitCommand}, else false

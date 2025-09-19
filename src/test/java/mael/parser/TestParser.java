@@ -33,19 +33,19 @@ public class TestParser {
     @Test
     public void parseInput_deadlineInvalidDate_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("deadline submission /by 03092025 2500"));
+                () -> Parser.parseInput("deadline submission /by 03092025 2500"));
     }
 
     @Test
     public void parseInput_deadlineInvalidFormat_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("deadline submission /by 030920251400"));
+                () -> Parser.parseInput("deadline submission /by 030920251400"));
     }
 
     @Test
     public void parseInput_deadlineInvalidContext_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("deadline submission /bt 030920251400"));
+                () -> Parser.parseInput("deadline submission /bt 030920251400"));
     }
 
     @Test
@@ -57,19 +57,19 @@ public class TestParser {
     @Test
     public void parseInput_deadlineMissingEvent_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("event /from 03092025 1400 /to 05092025 1300"));
+                () -> Parser.parseInput("event /from 03092025 1400 /to 05092025 1300"));
     }
 
     @Test
     public void parseInput_eventInvalidDate_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("event show /from 03092025 1400 /to 05092025 3300"));
+                () -> Parser.parseInput("event show /from 03092025 1400 /to 05092025 3300"));
     }
 
     @Test
     public void parseInput_eventInvalidFormat_throwsMaelException() {
         assertThrows(MaelException.class, 
-            () -> Parser.parseInput("event show /to 03092025 1400 /from 05092025 1300"));
+                () -> Parser.parseInput("event show /to 03092025 1400 /from 05092025 1300"));
     }
 
     @Test
@@ -181,13 +181,31 @@ public class TestParser {
 
     @Test
     public void parseCommandStorage_validAdd_success() throws MaelException {
-        Command c = Parser.parseCommandStorage("Add | task name |  |  | false");
+        Command c = Parser.parseCommandStorage("Add | task name | false | 1");
         assert (true);
     }
 
     @Test
     public void parseCommandStorage_corruptedAdd_throwsMaelException() {
         assertThrows(MaelException.class, () -> Parser.parseCommandStorage("Add | missing fields"));
+    }
+
+    @Test
+    public void parseCommandStorage_corruptedAdd2_throwsMaelException() {
+        assertThrows(MaelException.class, 
+                () -> Parser.parseCommandStorage("Add | task | invaliddate | false"));
+    }
+
+    @Test
+    public void parseCommandStorage_validDelete_success() throws MaelException {
+        Command c = Parser.parseCommandStorage("Delete | 1 | task name");
+        assert (true);
+    }
+
+    @Test
+    public void parseCommandStorage_corruptedDelete_throwsMaelException() {
+        assertThrows(MaelException.class,
+                () -> Parser.parseCommandStorage("Delete | 1 "));
     }
 
     @Test

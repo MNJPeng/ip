@@ -15,7 +15,7 @@ public class ListCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) {
+            TaskList taskList, Storage taskStorage, UI ui) {
         String response = "";
         response += ui.getListHeaderString();
         response += ui.getListString(taskList.getTasksAsPrintStrings());
@@ -24,7 +24,7 @@ public class ListCommand extends Command {
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         throw new MaelException("List command cannot be undone");
     }
 

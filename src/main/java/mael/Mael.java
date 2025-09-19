@@ -48,7 +48,7 @@ public class Mael {
      * @param gui GUI displaying Mael
      */
     public Mael(String commandDataPathName, String taskDataPathName, 
-        boolean hasDelay, boolean hasSequences, GUI gui) {
+            boolean hasDelay, boolean hasSequences, GUI gui) {
         this.TASK_DATA_PATH_NAME = taskDataPathName;
         this.COMMAND_DATA_PATH_NAME = commandDataPathName;
         this.gui = gui;
@@ -72,17 +72,17 @@ public class Mael {
         boolean isExit = false;
         
         while (!isExit) { 
-        try {
-            String input = ui.nextLine();
-            ui.printDividerLine();
-            Command command = Parser.parseInput(input);
-            command.execute(tasks, taskStorage, ui);
-            isExit = command.isExit();
-        } catch (MaelException e) {
-            ui.printException(e);
-        } finally {
-            ui.printDividerLine();
-        }
+            try {
+                String input = ui.nextLine();
+                ui.printDividerLine();
+                Command command = Parser.parseInput(input);
+                command.execute(tasks, taskStorage, ui);
+                isExit = command.isExit();
+            } catch (MaelException e) {
+                ui.printException(e);
+            } finally {
+                ui.printDividerLine();
+            }
         }
 
         try {

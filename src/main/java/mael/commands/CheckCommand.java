@@ -29,7 +29,7 @@ public class CheckCommand extends Command {
 
     @Override
     public String executeReturnString(CommandList commandList, Storage commandStorage, 
-        TaskList taskList, Storage taskStorage, UI ui) {
+            TaskList taskList, Storage taskStorage, UI ui) {
         String response = "";
         response += ui.getCheckHeaderString(DATE_BY);
         response += ui.getListString(taskList.checkDate(DATE_BY));
@@ -38,7 +38,7 @@ public class CheckCommand extends Command {
 
     @Override
     public String undoReturnString(CommandList commandList, Storage commandStorage,
-        TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
+            TaskList taskList, Storage taskStorage, UI ui) throws MaelException {
         throw new MaelException("Check command cannot be undone");
     }
 
