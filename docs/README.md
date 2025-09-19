@@ -1,6 +1,6 @@
 # Mael User Guide
 
-![alt text](image.png)
+![Ui Image](Ui.png)
 
 Your new local ☠️~~Virus~~☠️ task tracker.
 
