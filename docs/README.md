@@ -1,6 +1,6 @@
 # Mael User Guide
 
-<img width="502" height="906" alt="image" src="https://github.com/user-attachments/assets/a455c443-6353-4c46-95c6-6822cb35683a" />
+![alt text](image.png)
 
 Your new local ☠️~~Virus~~☠️ task tracker.
 
