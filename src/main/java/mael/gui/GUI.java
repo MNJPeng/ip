@@ -23,7 +23,7 @@ public class GUI extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
+            Scene scene = new Scene(ap, 500, 800);
             stage.setScene(scene);
             stage.setTitle("Mael");
             stage.setResizable(true);

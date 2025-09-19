@@ -256,7 +256,7 @@ dXXXXXXXXXXXb   d|b   dXXXXXXXXXXXb
     public String getDividerLineString() {
         String[] symbols = new String[]{"~", "-", "=", "+", "#"};
         String line = "";
-        for (int i = 0; i < 35; i++) {
+        for (int i = 0; i < 50; i++) {
             line += symbols[RNG.nextInt(0, symbols.length - 1)];
         }
        return line + "\n";
